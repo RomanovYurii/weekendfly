@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import { Input, Button, Spinner } from './common';
 import { changeEmail, changePassword, tryLogin, resetError, resetData } from '../actions';
@@ -39,7 +39,7 @@ class LoginForm extends Component {
         const { containerStyle } = styles;
         const { errorTextStyle, linkStyle } = globalStyles;
         return (
-            <View style={containerStyle}>
+            <ImageBackground source={require('../../assets/back.png')} imageStyle={{ resizeMode: 'cover' }} style={containerStyle} >
                     <Input 
                         placeholder="username@mail.com" 
                         onChangeText={this.emailChanges.bind(this)}
@@ -54,28 +54,28 @@ class LoginForm extends Component {
                     />
 
 
-                <Text style={errorTextStyle}>
-                    {this.props.error}
-                </Text>
-                
-                {this.renderButton()}
+                    <Text style={errorTextStyle}>
+                        {this.props.error}
+                    </Text>
+                    
+                    {this.renderButton()}
 
-                <View style={{ marginTop: 10 }}>
-                    <TouchableOpacity 
-                        onPress={
-                            () => { 
-                                this.props.resetData(); 
-                                this.props.resetError(); 
+                    <View style={{ marginTop: 10 }}>
+                        <TouchableOpacity 
+                            onPress={
+                                () => { 
+                                    this.props.resetData(); 
+                                    this.props.resetError(); 
+                                }
                             }
-                        }
-                    >
-                        <Text style={linkStyle}>
-                            Create account
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-
-            </View>
+                        >
+                            <Text style={linkStyle}>
+                                Create account
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                
+            </ImageBackground>
         );
     }
 }

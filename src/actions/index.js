@@ -65,7 +65,7 @@ const loginUserSuccess = (dispatch, user) => {
         type: LOGIN_SUCCESSFUL, payload: user
     });
 
-    Actions.selectFlight();
+    Actions.plan();
 };
 
 const createUserSuccess = (dispatch, email) => {

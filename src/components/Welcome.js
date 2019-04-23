@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import { Button } from './common';
 
-class Preferences extends Component {
+
+class WelcomePage extends Component {
+    
     render(){
-        const { containerStyle } = styles;
+        const { buttonStyle, containerStyle, textStyle } = styles;
         return (
             <ImageBackground source={require('../../assets/back.png')} imageStyle={{ resizeMode: 'cover' }} style={containerStyle} >
                 <View style={{ flex: 1, justifyContent: 'flex-end', textAlign: 'center' }}>
-                    <Button>SIGN IN</Button>
-                    <Button>SIGN UP</Button>
-                    <Text style={{ marginTop: 10, alignSelf: 'center' }}>The link will be here</Text>
+                    <Button onPress={() => Actions.login() } modify={ buttonStyle }>SIGN IN</Button>
+                    <Button onPress={() => Actions.register() } modify= { buttonStyle }>SIGN UP</Button>
+                    <Text style={ textStyle }>Forgot password?</Text>
                     <View style={{ marginTop: 60 }}/>
                 </View>
             </ImageBackground>
@@ -24,7 +27,20 @@ const styles = {
       flex: 1,
       backgroundColor: '#fff',
       justifyContent: 'center',
+    },
+    buttonStyle: {
+        height: 45,
+        marginLeft: 40,
+        marginRight: 40, 
+        backgroundColor: null,
+    },
+    textStyle: { 
+        marginTop: 10, 
+        alignSelf: 'center',
+        textDecorationLine: 'underline',
+        color: "#00D0FF",
+        fontSize: 16
     }
 };
 
-export default connect(null, null)(Preferences);
+export default connect(null, null)(WelcomePage);

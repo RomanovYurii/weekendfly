@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import { View, Text } from 'react-native';
+import { Font } from 'expo';
 import ReduxThunk from 'redux-thunk';
 import reducers from './src/reducers';
 import Router from './src/Router';
 
 
+
 export default class App extends Component {
+  state = {
+    fontsLoaded: false
+  };
 
   componentWillMount() {
     const config = {
@@ -21,11 +27,29 @@ export default class App extends Component {
     firebase.initializeApp(config);
   }
 
+  async componentDidMount() {
+    await Font.loadAsync({
+      'rockwell': require('./assets/fonts/rock.ttf'),
+      'kalam-bold': require('./assets/fonts/kalambold.ttf'),
+      'kalam-regular': require('./assets/fonts/Kalam-Regular.ttf')
+    });
+    this.setState({ fontsLoaded: true });
+  }
+
   render() {
-    return (
-      <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
-          <Router />
-      </Provider>
-    );
+    if (this.state.fontsLoaded)  {
+        return (
+        <Provider store={createStore(reducers, {}, applyMiddleware(ReduxThunk))}>
+            <Router />
+        </Provider>
+      );
+    }
+    else {
+      return(
+        <View style={{ flex: 1, justifyContent: 'center', textAlign: 'center' }}>
+          <Text>Loading....</Text>
+        </View>
+      )
+    }
   }
 }

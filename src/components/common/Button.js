@@ -21,8 +21,8 @@ const styles = {
     textStyle: {
         alignSelf: 'center',
         color: 'white',
-        fontSize: 16,
-        fontWeight: '600',
+        fontSize: 24,
+        fontFamily: 'kalam-regular'
     },
     buttonStyle: {
         height: 40,

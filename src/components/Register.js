@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ImageBackground, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import { Input, Button, Spinner } from './common';
 import { changeEmail, changePassword, createUser, resetError } from '../actions';
@@ -16,6 +16,7 @@ class Register extends Component {
     }
 
     buttonPressed() {
+        console.log('button pressed');
         const { email, password } = this.props;
         this.props.createUser({ email, password });
     }
@@ -37,47 +38,49 @@ class Register extends Component {
     }
 
     render() {
-        const { errorTextStyle, linkStyle } = globalStyles;
+        const { containerStyle } = styles;
+        const { errorTextStyle } = globalStyles;
         return (
-            <View style={styles.container}>
-                <Input 
-                    placeholder="type your email" 
-                    onChangeText={this.emailChanges.bind(this)}
-                    value={this.props.email}
-                />
-
-                <Input 
-                    placeholder="type your password" 
-                    secureTextEntry 
-                    onChangeText={this.passwordChanges.bind(this)}
-                    value={this.props.password}
-                />
-
-                <Text style={errorTextStyle}>
-                    {this.props.error}
-                </Text>
-                
-                {this.renderButton()}
-
-                <View style={{ marginTop: 10 }}>
-                    <TouchableOpacity onPress={() => { this.props.resetError(); }}>
-                        <Text style={linkStyle}>
-                            Return
-                        </Text>
-                    </TouchableOpacity>
+            <ImageBackground source={require('../../assets/back.png')} imageStyle={{ resizeMode: 'cover' }} style={containerStyle} >
+                <View style={{ flex: 0, justifyContent: 'center', alignContent: 'center'}}>
+                    <Image source={require("../../assets/logo.png")} style={{ width: 204, height: 132, alignSelf: 'center', marginTop: 45 }} />
                 </View>
 
-            </View>
+                <KeyboardAvoidingView 
+                    style={{ flex: 2, justifyContent: 'flex-end', textAlign: 'center', marginBottom: 20 }}
+                    behavior="padding"
+                >            
+                    <Input 
+                        placeholder="type your email" 
+                        onChangeText={this.emailChanges.bind(this)}
+                        value={this.props.email}
+                    />
+
+                    <Input 
+                        placeholder="type your password" 
+                        secureTextEntry 
+                        onChangeText={this.passwordChanges.bind(this)}
+                        value={this.props.password}
+                    />
+
+                    <Text style={errorTextStyle}>
+                        {this.props.error}
+                    </Text>
+                    
+                    {this.renderButton()}
+                </KeyboardAvoidingView>
+            </ImageBackground>
         );
     }
 }
 
 const styles = {
-    container: {
+    containerStyle: {
       flex: 1,
       backgroundColor: '#fff',
       justifyContent: 'center',
-    },
+      flexDirection: 'column'
+    }
 };
 
 const mapStateToProps = ({ auth }) => {

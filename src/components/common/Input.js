@@ -1,8 +1,8 @@
 import React from 'react';
 import { TextInput, View } from 'react-native';
 
-const Input = ({ value, onChangeText, placeholder, secureTextEntry }) => {
-    const { inputStyle, containerStyle } = styles;
+const Input = ({ value, onChangeText, placeholder, secureTextEntry, modify, autoCapitalize }) => {
+    const { inputStyle, containerStyle, lineStyle } = styles;
 
     return (
         <View style={containerStyle}>
@@ -10,33 +10,49 @@ const Input = ({ value, onChangeText, placeholder, secureTextEntry }) => {
                 secureTextEntry={secureTextEntry}
                 placeholder={placeholder}
                 autoCorrect={false}
-                style={inputStyle}
+                style={ [inputStyle, modify] }
                 value={value}
+                placeholderTextColor='#BFBFBF'
                 onChangeText={onChangeText}
+                autoCapitalize={autoCapitalize}
+                underlineColorAndroid="transparent"
             />
+            <View style= { lineStyle } />
         </View>
     );
 };
 
 const styles = {
     inputStyle: {
-        color: '#000',
-        paddingRight: 5,
-        paddingLeft: 5,
-        fontSize: 18,
-        lineHeight: 23,
-        flex: 2,
+        paddingRight: 10,
+        paddingLeft: 10,
+        fontSize: 22,
+        color: '#4880BB',
+        flex: 6,
+        fontFamily: 'rockwell',
+        marginTop: 2
     },
     containerStyle: {
         height: 40,
         flexDirection: 'row',
-        bordercolor: '#ddd',
+        borderColor: '#00D0FF',
+        backgroundColor: '#FFFFFF',
         borderWidth: 2,
         marginLeft: 10,
         marginRight: 10,
         marginTop: 10,
         justifyContent: 'center',
         alignSelf: 'stretch',
+        flexDirection: 'column',
+        borderRadius: 15
+    },
+    lineStyle: {
+        flex: 1,
+        borderTopColor: '#4880BB',
+        borderTopWidth: 1,
+        justifyContent: 'flex-start',
+        marginRight: 10,
+        marginLeft: 10
     }
 };
 

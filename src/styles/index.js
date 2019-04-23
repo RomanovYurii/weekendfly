@@ -1,8 +1,11 @@
 const globalStyles = {
     errorTextStyle: {
-        fontSize: 20,
+        fontSize: 18,
         alignSelf: 'center',
-        color: 'red'
+        color: 'red',
+        fontFamily: 'rockwell',
+        marginLeft: 10,
+        marginRight: 10
     },
     linkStyle: {
         alignSelf: 'center', 

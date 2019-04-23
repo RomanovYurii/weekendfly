@@ -1,6 +1,5 @@
 import React from 'react';
 import { Router, Scene, Drawer, Stack } from 'react-native-router-flux';
-import { ImageBackground } from 'react-native';
 import LoginForm from './components/LoginForm';
 import Register from './components/Register';
 import FlightSelection from './components/FlightSelection';

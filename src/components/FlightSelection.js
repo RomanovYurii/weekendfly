@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground } from 'react-native';
+import { View, Text, ImageBackground, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Input, Button } from './common';
@@ -7,16 +7,33 @@ import { Input, Button } from './common';
 class FlightSelection extends Component {
 
     render() {
+
         const { containerStyle, textStyle } = styles;
         return (
             <ImageBackground source={require('../../assets/city.png')} imageStyle={{ resizeMode: 'cover' }} style={containerStyle} >
-                <View style={{ flex: 1, justifyContent: 'space-around' }}>
-                    <Input />
-                    <Input />
-                    <Input />
-                    <Input />
-                    <Button onPress={() => Actions.prefs()}>OK</Button>
-                </View>
+                <KeyboardAvoidingView style={{ marginTop: 100 }} behavior="padding" keyboardVerticalOffset={20} >
+                    <ScrollView>
+                            <View>
+                                <Text style={textStyle} >Leaving</Text>
+                                <Input modify={{ marginTop: 0 }}/>
+                            </View>
+                            <View style={{ marginTop: 25 }}>
+                                <Text style={textStyle} >Going to</Text>
+                                <Input modify={{ marginTop: 0 }}/>
+                            </View>
+                            <View style={{ marginTop: 25 }}>
+                                <Text style={textStyle} >Travel budget</Text>
+                                <Input modify={{ marginTop: 0 }}/>
+                            </View>
+                            <View style={{ marginTop: 25 }}>
+                                <Text style={textStyle} >Dates</Text>
+                                <Input modify={{ marginTop: 0 }}/>
+                            </View>
+                            <View style={{ marginTop: 45 }}>
+                                <Button onPress={() => Actions.prefs()} >OK</Button>
+                            </View>
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </ImageBackground>
         );
     }
@@ -29,13 +46,12 @@ const styles = {
       backgroundColor: '#fff',
       justifyContent: 'center',
     },
-    textStyle: { 
-        marginTop: 10, 
-        alignSelf: 'center',
-        textDecorationLine: 'underline',
+    textStyle: {  
+        textAlign: 'left',
         color: "#FFFFFF",
-        fontSize: 14,
-        fontFamily: 'rockwell'
+        fontSize: 24,
+        fontFamily: 'kalam-regular',
+        marginLeft: 15
     }
 };
 

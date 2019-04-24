@@ -13,7 +13,7 @@ const RouterComponent = () => {
     return (
         <Router>
             <Scene key="root">
-                <Scene key="auth" hideNavBar initial >
+                <Scene key="auth" hideNavBar >
                     <Scene key="welcome" component={WelcomePage}/>
                     <Scene key="login" component={LoginForm}/>
                     <Scene key="register" component={Register}/>
@@ -26,10 +26,11 @@ const RouterComponent = () => {
                     contentComponent={DrawerContent}
                     style={{ backgroundColor: '#4B5B6C' }}
                     drawerIcon={MenuIcon}
+                    initial 
                 >
-                    <Scene key="plan">
-                        <Scene key="selectFlight" component={FlightSelection} title="Plan your trip" />
-                        <Scene key="prefs" component={Preferences} title="Plan your trip" back={true}/>
+                    <Scene navTransparent={true} key="plan">
+                        <Scene key="selectFlight" component={FlightSelection} />
+                        <Scene key="prefs" component={Preferences} back={true}/>
                     </Scene>
                 </Drawer>
             </Scene>

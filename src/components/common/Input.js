@@ -5,12 +5,12 @@ const Input = ({ value, onChangeText, placeholder, secureTextEntry, modify, auto
     const { inputStyle, containerStyle, lineStyle } = styles;
 
     return (
-        <View style={containerStyle}>
+        <View style=  { [containerStyle, modify] }>
             <TextInput
                 secureTextEntry={secureTextEntry}
                 placeholder={placeholder}
                 autoCorrect={false}
-                style={ [inputStyle, modify] }
+                style={ inputStyle }
                 value={value}
                 placeholderTextColor='#BFBFBF'
                 onChangeText={onChangeText}

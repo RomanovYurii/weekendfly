@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Scene, Drawer, Stack } from 'react-native-router-flux';
+import { Router, Scene, Drawer, Lightbox } from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
 import Register from './components/Register';
 import FlightSelection from './components/FlightSelection';
@@ -8,7 +8,6 @@ import { MenuIcon } from './components/common';
 import DrawerContent from './components/DrawerContent';
 import WelcomePage from './components/Welcome';
 import ResetPage from './components/Reset';
-
 
 const RouterComponent = () => {
     return (

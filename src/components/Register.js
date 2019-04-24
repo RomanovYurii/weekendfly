@@ -16,7 +16,6 @@ class Register extends Component {
     }
 
     buttonPressed() {
-        console.log('button pressed');
         const { email, password } = this.props;
         this.props.createUser({ email, password });
     }

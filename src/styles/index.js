@@ -4,8 +4,8 @@ const globalStyles = {
         alignSelf: 'center',
         color: 'red',
         fontFamily: 'rockwell',
-        marginLeft: 10,
-        marginRight: 10
+        marginLeft: 15,
+        marginRight: 15
     },
     linkStyle: {
         alignSelf: 'center', 

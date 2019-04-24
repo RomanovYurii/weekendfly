@@ -7,7 +7,8 @@ import {
     CREATION_FAILED,
     CREATION_SUCCESSFUL,
     RESET_ERROR,
-    RESET_DATA
+    RESET_DATA,
+    ENTERED_RESET_EMAIL
 } from '../actions/types';
 
 const INITIAL_STATE = { 
@@ -15,7 +16,7 @@ const INITIAL_STATE = {
     password: '',
     loading: false,
     error: '',
-    user: null
+    user: null,
  };
 
 export default (state = INITIAL_STATE, action) => {
@@ -33,7 +34,7 @@ export default (state = INITIAL_STATE, action) => {
         case CREATION_FAILED:
             return { ...state, ...INITIAL_STATE, error: action.payload };
         case CREATION_SUCCESSFUL:
-            return { ...state, ...INITIAL_STATE, email: action.payload };
+            return { ...state, ...INITIAL_STATE };
         case RESET_ERROR:
             return { ...state, error: action.payload };
         case RESET_DATA:

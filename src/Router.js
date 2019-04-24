@@ -7,6 +7,7 @@ import Preferences from './components/Preferences';
 import { MenuIcon } from './components/common';
 import DrawerContent from './components/DrawerContent';
 import WelcomePage from './components/Welcome';
+import ResetPage from './components/Reset';
 
 
 const RouterComponent = () => {
@@ -14,9 +15,10 @@ const RouterComponent = () => {
         <Router>
             <Scene key="root">
                 <Scene key="auth" hideNavBar initial >
-                    <Scene key="welcome" component={WelcomePage} />
-                    <Scene key="login" component={LoginForm} title="Please Login" />
-                    <Scene key="register" component={Register} title="Create account" />
+                    <Scene key="welcome" component={WelcomePage}/>
+                    <Scene key="login" component={LoginForm}/>
+                    <Scene key="register" component={Register}/>
+                    <Scene key="resetPass" component={ResetPage}/>
                 </Scene>
 
                 <Drawer 

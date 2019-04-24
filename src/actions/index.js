@@ -1,6 +1,5 @@
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
-import { FlightSelection } from '../components/FlightSelection';
 import {
     ENTERED_EMAIL,
     ENTERED_PASSWORD,
@@ -10,7 +9,7 @@ import {
     CREATION_SUCCESSFUL,
     CREATION_FAILED,
     RESET_ERROR,
-    RESET_DATA
+    RESET_DATA,
 } from './types';
 
 export const changeEmail = (text) => {
@@ -45,10 +44,18 @@ export const createUser = ({ email, password }) => {
         dispatch({ type: LOGS_IN });
 
         firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(() => { createUserSuccess(dispatch, email); })
+            .then(() => { createUserSuccess(dispatch); })
             .catch((error) => createUserFail(dispatch, error.message));
     };
 };
+
+export const resetPassword = (email) => {
+    return (dispatch) => {
+        firebase.auth().sendPasswordResetEmail(email)
+            .then( () => { createUserSuccess(dispatch); } )
+            .catch( (error) => { createUserFail(dispatch, error.message); } ) 
+    };
+}
 
 export const tryLogin = ({ email, password }) => {
     return (dispatch) => {
@@ -68,8 +75,9 @@ const loginUserSuccess = (dispatch, user) => {
     Actions.plan();
 };
 
-const createUserSuccess = (dispatch, email) => {
-    dispatch({ type: CREATION_SUCCESSFUL, payload: email });
+const createUserSuccess = (dispatch) => {
+    dispatch({ type: CREATION_SUCCESSFUL });
+    Actions.welcome();
 };
 
 const createUserFail = (dispatch, msg) => {

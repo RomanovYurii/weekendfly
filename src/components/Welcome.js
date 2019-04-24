@@ -1,12 +1,30 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, Image } from 'react-native';
+import { View, Text, ImageBackground, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Button } from './common';
+import { resetError, resetData } from '../actions';
 
 
 class WelcomePage extends Component {
-    
+    signUpPressed() {
+        Actions.register(); 
+        this.props.resetError();
+        this.props.resetData();
+    }
+
+    signInPressed() {
+        Actions.login(); 
+        this.props.resetError();
+        this.props.resetData();
+    }
+
+    forgotPressed() {
+        Actions.resetPass(); 
+        this.props.resetError();
+        this.props.resetData();
+    }
+
     render(){
         const { buttonStyle, containerStyle, textStyle } = styles;
         return (
@@ -15,9 +33,11 @@ class WelcomePage extends Component {
                         <Image source={require("../../assets/logo.png")} style={{ width: 204, height: 132, alignSelf: 'center', marginTop: 45 }} />
                     </View>
                     <View style={{ flex: 2, justifyContent: 'flex-end', textAlign: 'center' }}>
-                        <Button onPress={() => Actions.login() } modify={ buttonStyle }>SIGN IN</Button>
-                        <Button onPress={() => Actions.register() } modify= { buttonStyle }>SIGN UP</Button>
-                        <Text style={ textStyle }>Forgot password?</Text>
+                        <Button onPress={this.signInPressed.bind(this)} modify={ buttonStyle }>SIGN IN</Button>
+                        <Button onPress={this.signUpPressed.bind(this)} modify= { buttonStyle }>SIGN UP</Button>
+                        <TouchableOpacity onPress={this.forgotPressed.bind(this)}>
+                            <Text style={ textStyle }>Forgot password?</Text>
+                        </TouchableOpacity>
                         <View style={{ marginTop: 60 }}/>
                     </View>
             </ImageBackground>
@@ -48,4 +68,4 @@ const styles = {
     }
 };
 
-export default connect(null, null)(WelcomePage);
+export default connect(null, { resetError, resetData })(WelcomePage);

@@ -8,7 +8,6 @@ import {
     CREATION_SUCCESSFUL,
     RESET_ERROR,
     RESET_DATA,
-    ENTERED_RESET_EMAIL
 } from '../actions/types';
 
 const INITIAL_STATE = { 

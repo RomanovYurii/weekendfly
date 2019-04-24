@@ -3,6 +3,7 @@ import { View, Text, ImageBackground, ScrollView, KeyboardAvoidingView } from 'r
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Input, Button } from './common';
+import { flightUpdate } from '../actions/';
 
 class FlightSelection extends Component {
 
@@ -15,15 +16,27 @@ class FlightSelection extends Component {
                     <ScrollView>
                             <View>
                                 <Text style={textStyle} >Leaving</Text>
-                                <Input modify={{ marginTop: 0 }}/>
+                                <Input 
+                                    modify={{ marginTop: 0 }}
+                                    value={this.props.depart}
+                                    onChangeText={text => this.props.flightUpdate({ data: 'depart', value: text })}
+                                />
                             </View>
                             <View style={{ marginTop: 25 }}>
                                 <Text style={textStyle} >Going to</Text>
-                                <Input modify={{ marginTop: 0 }}/>
+                                <Input 
+                                    modify={{ marginTop: 0 }}
+                                    value={this.props.dest}
+                                    onChangeText={text => this.props.flightUpdate({ data: 'dest', value: text })}
+                                />
                             </View>
                             <View style={{ marginTop: 25 }}>
                                 <Text style={textStyle} >Travel budget</Text>
-                                <Input modify={{ marginTop: 0 }}/>
+                                <Input 
+                                    modify={{ marginTop: 0 }}
+                                    value={this.props.budget}
+                                    onChangeText={text => this.props.flightUpdate({ data: 'budget', value: text })}
+                                />
                             </View>
                             <View style={{ marginTop: 25 }}>
                                 <Text style={textStyle} >Dates</Text>
@@ -55,10 +68,10 @@ const styles = {
     }
 };
 
-const mapStateToProps = ({ auth }) => {
-    const { email } = auth;
-    return { email };
+const mapStateToProps = ({ flightData }) => {
+    const { depart, dest, budget } = flightData;
+    return { depart, dest, budget };
 };
 
-const Flight = connect(mapStateToProps)(FlightSelection);
+const Flight = connect(mapStateToProps, { flightUpdate })(FlightSelection);
 export { Flight };

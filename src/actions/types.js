@@ -7,3 +7,4 @@ export const CREATION_SUCCESSFUL = 'user_created';
 export const CREATION_FAILED = 'user_not_created';
 export const RESET_ERROR = 'reset_error';
 export const RESET_DATA = 'reset_data';
+export const UPDATE_FLIGHT = 'update_flight_data';

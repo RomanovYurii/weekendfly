@@ -12,4 +12,5 @@ class Preferences extends Component {
     }
 }
 
-export default connect(null, null)(Preferences);
+const Pref = connect(null, null)(Preferences);
+export { Pref };

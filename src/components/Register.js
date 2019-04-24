@@ -87,4 +87,5 @@ const mapStateToProps = ({ auth }) => {
     return { email, password, error, loading };
 };
 
-export default connect(mapStateToProps, { changeEmail, changePassword, createUser, resetError })(Register);
+const Reg = connect(mapStateToProps, { changeEmail, changePassword, createUser, resetError })(Register);
+export { Reg };

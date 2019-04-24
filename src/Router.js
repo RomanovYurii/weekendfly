@@ -1,23 +1,17 @@
 import React from 'react';
-import { Router, Scene, Drawer, Lightbox } from 'react-native-router-flux';
-import LoginForm from './components/LoginForm';
-import Register from './components/Register';
-import FlightSelection from './components/FlightSelection';
-import Preferences from './components/Preferences';
+import { Router, Scene, Drawer } from 'react-native-router-flux';
 import { MenuIcon } from './components/common';
-import DrawerContent from './components/DrawerContent';
-import WelcomePage from './components/Welcome';
-import ResetPage from './components/Reset';
+import { Welcome, ResetPass, Reg, Pref, Log, Flight, DrawerContent } from './components';
 
 const RouterComponent = () => {
     return (
         <Router>
             <Scene key="root">
-                <Scene key="auth" hideNavBar >
-                    <Scene key="welcome" component={WelcomePage}/>
-                    <Scene key="login" component={LoginForm}/>
-                    <Scene key="register" component={Register}/>
-                    <Scene key="resetPass" component={ResetPage}/>
+                <Scene key="auth" hideNavBar initial >
+                    <Scene key="welcome" component={Welcome}/>
+                    <Scene key="login" component={Log}/>
+                    <Scene key="register" component={Reg}/>
+                    <Scene key="resetPass" component={ResetPass}/>
                 </Scene>
 
                 <Drawer 
@@ -26,11 +20,11 @@ const RouterComponent = () => {
                     contentComponent={DrawerContent}
                     style={{ backgroundColor: '#4B5B6C' }}
                     drawerIcon={MenuIcon}
-                    initial 
+                    
                 >
                     <Scene navTransparent={true} key="plan">
-                        <Scene key="selectFlight" component={FlightSelection} />
-                        <Scene key="prefs" component={Preferences} back={true}/>
+                        <Scene key="selectFlight" component={Flight} />
+                        <Scene key="prefs" component={Pref} back={true}/>
                     </Scene>
                 </Drawer>
             </Scene>

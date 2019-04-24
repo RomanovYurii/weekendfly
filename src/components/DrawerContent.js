@@ -11,4 +11,4 @@ class DrawerContent extends React.Component {
   }
 }
 
-export default DrawerContent;
+export { DrawerContent };

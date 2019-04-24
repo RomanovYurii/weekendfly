@@ -68,4 +68,5 @@ const styles = {
     }
 };
 
-export default connect(null, { resetError, resetData })(WelcomePage);
+const Welcome = connect(null, { resetError, resetData })(WelcomePage);
+export { Welcome };

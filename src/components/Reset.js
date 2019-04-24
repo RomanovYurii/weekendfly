@@ -72,4 +72,5 @@ const mapStateToProps = ({ auth }) => {
     return { email, error };
 };
 
-export default connect(mapStateToProps, { resetPassword, changeEmail })(ResetPage);
+const ResetPass = connect(mapStateToProps, { resetPassword, changeEmail })(ResetPage);
+export { ResetPass };

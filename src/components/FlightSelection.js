@@ -60,4 +60,5 @@ const mapStateToProps = ({ auth }) => {
     return { email };
 };
 
-export default connect(mapStateToProps)(FlightSelection);
+const Flight = connect(mapStateToProps)(FlightSelection);
+export { Flight };

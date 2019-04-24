@@ -90,4 +90,5 @@ const mapStateToProps = ({ auth }) => {
     return { email, password, error, loading };
 };
 
-export default connect(mapStateToProps, { changeEmail, changePassword, tryLogin, resetError, resetData })(LoginForm);
+const Log = connect(mapStateToProps, { changeEmail, changePassword, tryLogin, resetError, resetData })(LoginForm);
+export { Log };

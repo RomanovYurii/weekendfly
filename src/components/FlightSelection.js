@@ -19,17 +19,21 @@ class FlightSelection extends Component {
                                 <Input 
                                     modify={{ marginTop: 0 }}
                                     value={this.props.depart}
-                                    onChangeText={text => this.props.flightUpdate({ data: 'depart', value: text })}
+                                    onFocus={text => { this.props.flightUpdate({ data: 'depart', value: text });Actions.from(); } }
                                 />
                             </View>
+
                             <View style={{ marginTop: 25 }}>
                                 <Text style={textStyle} >Going to</Text>
                                 <Input 
                                     modify={{ marginTop: 0 }}
                                     value={this.props.dest}
                                     onChangeText={text => this.props.flightUpdate({ data: 'dest', value: text })}
-                                />
+                                >
+                                
+                                </Input>
                             </View>
+
                             <View style={{ marginTop: 25 }}>
                                 <Text style={textStyle} >Travel budget</Text>
                                 <Input 
@@ -38,13 +42,16 @@ class FlightSelection extends Component {
                                     onChangeText={text => this.props.flightUpdate({ data: 'budget', value: text })}
                                 />
                             </View>
+
                             <View style={{ marginTop: 25 }}>
                                 <Text style={textStyle} >Dates</Text>
                                 <Input modify={{ marginTop: 0 }}/>
                             </View>
+
                             <View style={{ marginTop: 45 }}>
                                 <Button onPress={() => Actions.prefs()} >OK</Button>
                             </View>
+
                     </ScrollView>
                 </KeyboardAvoidingView>
             </ImageBackground>

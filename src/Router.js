@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Scene, Drawer } from 'react-native-router-flux';
 import { MenuIcon } from './components/common';
-import { Welcome, ResetPass, Reg, Pref, Log, Flight, DrawerContent } from './components';
+import { Welcome, ResetPass, Reg, Pref, Log, Flight, DrawerContent, From } from './components';
 
 const RouterComponent = () => {
     return (
@@ -26,6 +26,7 @@ const RouterComponent = () => {
                         <Scene key="selectFlight" component={Flight} />
                         <Scene key="prefs" component={Pref} back={true}/>
                     </Scene>
+                    <Scene hideNavBar key="from" component={From} />
                 </Drawer>
             </Scene>
         </Router>

@@ -9,14 +9,13 @@ import { Spinner } from './src/components/common';
 import reducers from './src/reducers';
 import Router from './src/Router';
 
-
-
 export default class App extends Component {
   state = {
     fontsLoaded: false
   };
 
   componentWillMount() {
+    
     const config = {
       apiKey: 'AIzaSyABDA0ovWiiDk0YP1uBp9j4_AHi80slASs',
       authDomain: 'weekendfly-97c2a.firebaseapp.com',

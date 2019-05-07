@@ -19,7 +19,7 @@ class FlightSelection extends Component {
                                 <Input 
                                     modify={{ marginTop: 0 }}
                                     value={this.props.depart}
-                                    onFocus={text => { this.props.flightUpdate({ data: 'depart', value: text });Actions.from(); } }
+                                    onFocus={() => { Actions.from(); } }
                                 />
                             </View>
 

@@ -1,32 +1,112 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, FlatList, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { Input, Button } from './common';
+import { Input } from './common';
 import { flightUpdate } from '../actions/';
+import debounced from '../utils/debounced';
+import fetchAirports from '../methods/fetchAirports';
 
+const DEBOUNCE_MS = 500;
 class OutPicker extends Component {
-    render() {
-        const { depart } = this.props;
-        return (
-            <View style={{ marginTop: 50 }}>
-                <Text>Here it is</Text>
-                <Input 
-                    autoFocus={true}
-                    value={(typeof depart === 'object')? '' : depart}/>
-                <Text>New form</Text>
-                <Button onPress={() => console.log(typeof depart)}>Check</Button>
-            </View>
+  state = {
+    options: [],
+    value: this.props.depart,
+  }
 
-            
-        );
+  handleChangeText = (value) => {
+    this.setState({ value });
+    this.updateOptions(value);
+  };
+
+  fetchOptions = fetchAirports;
+
+  updateList = async (value) => {
+    const optionsList = await this.fetchOptions(value? value: '');
+    this.setState({ options: optionsList });
+  }
+
+  handleListPress = (item) => {
+    const { key } = item;
+    this.setState({ value: key }); 
+    this.props.flightUpdate({ data: 'depart', value: key });
+    Actions.pop();
+  }
+
+  updateOptions = debounced(DEBOUNCE_MS, this.updateList);
+
+  inputStyleSwitch = (arr) => {
+    if (arr.length !== 0){
+      const modify = { borderBottomRightRadius: 0, borderBottomLeftRadius: 0, borderBottomWidth: 0, };
+      return modify;
     }
+  };
+
+  renderList = (arr) => {
+    if (arr.length !== 0){
+      return (
+        <FlatList
+          data={this.state.options}
+          contentContainerStyle={ styles.listStyle }
+          renderItem={({item}) => (
+            <TouchableOpacity style={styles.itemStyle} onPress={ this.handleListPress.bind(this, item) }>
+              <Text style = { styles.textStyle }>{item.key}</Text>
+            </TouchableOpacity>)
+          }
+        />
+      );
+    }
+  };
+
+  render() {
+    return (
+      <ImageBackground source={require('../../assets/lviv.jpg')} imageStyle={{ resizeMode: 'cover' }} style={{ flex: 1 }} >
+        <View style={{ flex: 1, marginTop: 100 }}>
+          
+            <Input 
+              autoFocus={false}
+              value={this.state.value}
+              onChangeText={this.handleChangeText}
+              modify={this.inputStyleSwitch(this.state.options)}
+              >
+            </Input>
+            { this.renderList(this.state.options) }
+          
+        </View>
+      </ImageBackground>
+    );
+  }
 }
 
+const styles = StyleSheet.create({
+  listStyle: {
+    borderColor: '#00D0FF',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 2,
+    marginLeft: 10,
+    bottomBorderWidth: 0,
+    marginRight: 10,
+    flexDirection: 'column',
+    borderTopWidth: 0,
+  },
+  textStyle: {
+    fontSize: 22,
+    color: '#4880BB',
+    fontFamily: 'rockwell',
+    paddingLeft: 10,
+  },
+  itemStyle: {
+    borderTopColor: '#00D0FF',
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 2,
+  }
+});
+
+
 const mapStatetoProps = ({ flightData }) => {
-    const { depart } = flightData;
-    return { depart }; 
+  const { depart } = flightData;
+  return { depart }; 
 }  
 
-const From = connect(mapStatetoProps, null)(OutPicker);
+const From = connect(mapStatetoProps, { flightUpdate })(OutPicker);
 export { From };

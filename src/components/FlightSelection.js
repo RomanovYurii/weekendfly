@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ImageBackground, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, ImageBackground, ScrollView, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Input, Button } from './common';
@@ -45,7 +45,11 @@ class FlightSelection extends Component {
 
                             <View style={{ marginTop: 25 }}>
                                 <Text style={textStyle} >Dates</Text>
-                                <Input modify={{ marginTop: 0 }}/>
+                                <Input 
+                                    modify={{ marginTop: 0 }} 
+                                    value={this.props.date}
+                                    onFocus={() => { Actions.date(Keyboard.dismiss()); } }
+                                />
                             </View>
 
                             <View style={{ marginTop: 45 }}>
@@ -76,8 +80,8 @@ const styles = {
 };
 
 const mapStateToProps = ({ flightData }) => {
-    const { depart, dest, budget } = flightData;
-    return { depart, dest, budget };
+    const { depart, dest, budget, date } = flightData;
+    return { depart, dest, budget, date };
 };
 
 const Flight = connect(mapStateToProps, { flightUpdate })(FlightSelection);

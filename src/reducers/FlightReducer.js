@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     depart: null,
     dest: null,
     budget: null,
+    date: null,
 };
 
 export default (state = INITIAL_STATE, action) => {

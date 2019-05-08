@@ -6,10 +6,12 @@ import { Input, Button } from './common';
 import { flightUpdate } from '../actions/';
 
 class FlightSelection extends Component {
-
+    
+    
     render() {
-
         const { containerStyle, textStyle } = styles;
+        const backCol = this.props.depart? '#FFF' : '#9F9F9F';
+
         return (
             <ImageBackground source={require('../../assets/city.png')} imageStyle={{ resizeMode: 'cover' }} style={containerStyle} >
                 <KeyboardAvoidingView style={{ marginTop: 100 }} behavior="padding" keyboardVerticalOffset={20} >
@@ -26,9 +28,10 @@ class FlightSelection extends Component {
                             <View style={{ marginTop: 25 }}>
                                 <Text style={textStyle} >Going to</Text>
                                 <Input 
-                                    modify={{ marginTop: 0 }}
+                                    modify={{ marginTop: 0, backgroundColor: backCol }}
                                     value={this.props.dest}
-                                    onChangeText={text => this.props.flightUpdate({ data: 'dest', value: text })}
+                                    onFocus={() => { Actions.toForm(); }}
+                                    edit={this.props.depart? true : false}
                                 >
                                 
                                 </Input>
@@ -39,7 +42,7 @@ class FlightSelection extends Component {
                                 <Input 
                                     modify={{ marginTop: 0 }}
                                     value={this.props.budget}
-                                    onChangeText={text => this.props.flightUpdate({ data: 'budget', value: text })}
+                                    onChangeText={ text => this.props.flightUpdate({ data: 'budget', value: text }) }
                                 />
                             </View>
 

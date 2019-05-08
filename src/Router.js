@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Scene, Drawer, Modal, Actions, Lightbox } from 'react-native-router-flux';
 import { MenuIcon } from './components/common';
 import { TouchableOpacity, Text } from 'react-native';
-import { Welcome, ResetPass, Reg, Pref, Log, Flight, DrawerContent, From, Calendar } from './components';
+import { Welcome, ResetPass, Reg, Pref, Log, Flight, DrawerContent, From, Calendar, ToForm } from './components';
 import { StackViewStyleInterpolator } from 'react-navigation-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -22,15 +22,9 @@ const RouterComponent = () => {
     );
   };
 
-  const getFromTitle = () => {
+  const getTitle = (text, modify) => {
     return (
-      <Text style={{ color: "#FFFFFF", fontSize: 28, fontFamily: 'kalam-regular', marginTop: 7 }}>Leaving</Text>
-    );
-  }
-
-  const getDateTitle = () => {
-    return (
-      <Text style={{ color: "#FFFFFF", fontSize: 28, fontFamily: 'kalam-regular', marginTop: 7 }}>Dates</Text>
+      <Text style={ [{ color: "#FFFFFF", fontSize: 28, fontFamily: 'kalam-regular', marginTop: 7 }, modify ]}>{text}</Text>
     );
   }
 
@@ -52,9 +46,10 @@ const RouterComponent = () => {
                 contentComponent={DrawerContent}
                 style={{ backgroundColor: '#4B5B6C' }}
                 drawerIcon={MenuIcon}
+                
                 initial 
             >
-              <Scene navTransparent={true} key="plan">
+              <Scene navTransparent={true} renderTitle={() => getTitle("Let's plan", { marginLeft: 65 })} key="plan">
                   <Scene key="selectFlight" component={Flight} />
                   <Scene key="prefs" component={Pref} back={true}/>
               </Scene>
@@ -67,10 +62,16 @@ const RouterComponent = () => {
             hideNavBar={false}
             key="from" 
             component={From} 
-            title="Leaving"
-            renderTitle={getFromTitle}
-            renderBackButton={getCloseButton}
-        />
+            renderTitle={() => getTitle('Leaving')}
+            renderBackButton={() => getCloseButton()}
+          />
+          <Scene 
+            hideNavBar={false}
+            key="toForm" 
+            component={ToForm} 
+            renderTitle={() => getTitle('Going to')}
+            renderBackButton={() => getCloseButton()}
+          />
       </Modal>
     </Router>
   );

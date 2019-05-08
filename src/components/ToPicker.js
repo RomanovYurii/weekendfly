@@ -3,37 +3,38 @@ import { View, FlatList, Text, TouchableOpacity, StyleSheet, ImageBackground } f
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Input } from './common';
-import { flightUpdate } from '../actions/';
+import { flightUpdate } from '../actions';
 import debounced from '../utils/debounced';
-import fetchAirports from '../methods/fetchAirports';
+import fetchDestinations from '../methods/fetchDest';
 
 const DEBOUNCE_MS = 500;
-class OutPicker extends Component {
+class ToPicker extends Component {
   state = {
     options: [],
     value: '',
   }
 
-  componentWillMount() {
-    this.props.flightUpdate({ data: 'depart', value: '' });
+  async componentDidMount() {
+    await this.updateOptions(this.props.depart);
+    this.props.flightUpdate({ data: 'dest', value: '' });
   }
 
-  handleChangeText = async (value) => {
-    await this.setState({ value });
-    this.updateOptions(value);
+  handleChangeText = (flyingto, outbound=this.props.depart) => {
+    this.setState({ value : flyingto });
+    this.updateOptions(outbound, flyingto);
   };
 
-  fetchOptions = fetchAirports;
+  fetchOptions = fetchDestinations;
 
-  updateList = async (value) => {
-    const optionsList = await this.fetchOptions(value? value: '');
-    this.setState({ options: optionsList });
+  updateList = async (value, flyingto) => {
+    const optionsList = await this.fetchOptions(value? value: '', flyingto? flyingto : '');
+    await this.setState({ options: optionsList });
   }
 
   handleListPress = (item) => {
     const { key } = item;
     this.setState({ value: key }); 
-    this.props.flightUpdate({ data: 'depart', value: key });
+    this.props.flightUpdate({ data: 'dest', value: key });
     Actions.pop();
   }
 
@@ -64,7 +65,7 @@ class OutPicker extends Component {
 
   render() {
     return (
-      <ImageBackground source={require('../../assets/lviv.jpg')} imageStyle={{ resizeMode: 'cover' }} style={{ flex: 1 }} >
+      <ImageBackground source={require('../../assets/manu.jpeg')} imageStyle={{ resizeMode: 'cover' }} style={{ flex: 1 }} >
         <View style={{ flex: 1, marginTop: 100 }}>
           
             <Input 
@@ -108,9 +109,9 @@ const styles = StyleSheet.create({
 
 
 const mapStatetoProps = ({ flightData }) => {
-  const { depart } = flightData;
-  return { depart }; 
+  const { dest, depart } = flightData;
+  return { dest, depart }; 
 }  
 
-const From = connect(mapStatetoProps, { flightUpdate })(OutPicker);
-export { From };
+const ToForm = connect(mapStatetoProps, { flightUpdate })(ToPicker);
+export { ToForm };

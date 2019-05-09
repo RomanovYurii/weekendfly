@@ -11,6 +11,8 @@ class FlightSelection extends Component {
     render() {
         const { containerStyle, textStyle } = styles;
         const backCol = this.props.depart? '#FFF' : '#9F9F9F';
+        const myDate = {};
+        Object.assign(myDate, this.props.date);
 
         return (
             <ImageBackground source={require('../../assets/city.png')} imageStyle={{ resizeMode: 'cover' }} style={containerStyle} >
@@ -50,8 +52,8 @@ class FlightSelection extends Component {
                                 <Text style={textStyle} >Dates</Text>
                                 <Input 
                                     modify={{ marginTop: 0 }} 
-                                    value={this.props.date}
-                                    onFocus={() => { Actions.date(Keyboard.dismiss()); } }
+                                    value={ (this.props.date)? myDate.out + ' - ' + myDate.back : ''}
+                                    onFocus={async () => { Actions.date(Keyboard.dismiss()); await this.props.flightUpdate({ data: 'date', value: null })} }
                                 />
                             </View>
 

@@ -9,13 +9,33 @@ import CalendarPicker from 'react-native-calendar-picker';
 const { height: deviceHeight, width: deviceWidth } = Dimensions.get('window');
 
 class CalView extends Component {
+  state = {
+    out: null,
+    back: null,
+  };
+
   getCloseButton = () => {
     return (
-      <TouchableOpacity onPress={() => Actions.pop()}>
+      <TouchableOpacity onPress={() => Actions.pop(this.propagateDates())}>
         <MaterialCommunityIcons style={{ marginLeft: 10, marginTop: 10 }} name="close" size={30} color='#00D0FF' />
       </TouchableOpacity>
     );
   };
+
+  propagateDates = async () => {
+    const dates = {
+      out: this.state.out,
+      back: this.state.back,
+    };
+    if (this.state.out && this.state.back){ 
+      await this.props.flightUpdate({ data: 'date', value: dates });
+    }
+    else {
+      await this.props.flightUpdate({ data: 'date', value: null });
+    }
+  };
+
+  propagateDates = this.propagateDates.bind(this);
 
   startCalendar = () => {
     let start = new Date();
@@ -24,6 +44,21 @@ class CalView extends Component {
     end = new Date(end.setDate(end.getDate()-1));
     return end;
   };
+
+  handleDateChange = async (date, type) => {
+    myDate = date.clone();
+    myDate = myDate.add(2,'h').format('l');
+    if (type === 'END_DATE'){
+      await this.setState({ back: myDate });
+    }
+    else {
+      await this.setState({ out: myDate, back: null  }); 
+    }
+  };
+
+  handleDateChange=this.handleDateChange.bind(this);
+
+  
 
   render() {
     const end = this.startCalendar(); 
@@ -47,6 +82,8 @@ class CalView extends Component {
             allowRangeSelection={true}
             minDate={new Date()}
             maxDate={end}
+            maxRangeDuration={1}
+            onDateChange={this.handleDateChange}
           />
         </View>
       </View>

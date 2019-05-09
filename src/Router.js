@@ -46,7 +46,6 @@ const RouterComponent = () => {
                 contentComponent={DrawerContent}
                 style={{ backgroundColor: '#4B5B6C' }}
                 drawerIcon={MenuIcon}
-                
                 initial 
             >
               <Scene navTransparent={true} renderTitle={() => getTitle("Let's plan", { marginLeft: 65 })} key="plan">

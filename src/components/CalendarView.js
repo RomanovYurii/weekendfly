@@ -17,7 +17,16 @@ class CalView extends Component {
     );
   };
 
+  startCalendar = () => {
+    let start = new Date();
+    start.setDate(1);
+    let end = new Date(start.setFullYear(start.getFullYear() + 1));
+    end = new Date(end.setDate(end.getDate()-1));
+    return end;
+  };
+
   render() {
+    const end = this.startCalendar(); 
     return (
       <View style={styles.containerStyle}>
         <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -36,6 +45,8 @@ class CalView extends Component {
               fontSize: 17,
             }}
             allowRangeSelection={true}
+            minDate={new Date()}
+            maxDate={end}
           />
         </View>
       </View>

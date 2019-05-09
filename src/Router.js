@@ -5,6 +5,7 @@ import { TouchableOpacity, Text } from 'react-native';
 import { Welcome, ResetPass, Reg, Pref, Log, Flight, DrawerContent, From, Calendar, ToForm } from './components';
 import { StackViewStyleInterpolator } from 'react-navigation-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { SlideMenuComponent } from './components';
 
 const RouterComponent = () => {
   const transitionConfig = () => ({
@@ -43,7 +44,7 @@ const RouterComponent = () => {
             <Drawer 
                 hideNavBar
                 key="drawer" 
-                contentComponent={DrawerContent}
+                contentComponent={SlideMenuComponent}
                 style={{ backgroundColor: '#4B5B6C' }}
                 drawerIcon={MenuIcon}
                 initial 

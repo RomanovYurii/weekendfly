@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
     marginLeft: 10,
-    bottomBorderWidth: 0,
     marginRight: 10,
     flexDirection: 'column',
     borderTopWidth: 0,

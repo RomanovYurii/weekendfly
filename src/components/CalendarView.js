@@ -47,7 +47,9 @@ class CalView extends Component {
 
   handleDateChange = async (date, type) => {
     myDate = date.clone();
-    myDate = myDate.add(2,'h').format('l');
+    myDate = myDate.add(2,'h').format('YYYY-MM-DD');
+    console.log(myDate);
+
     if (type === 'END_DATE'){
       await this.setState({ back: myDate });
     }

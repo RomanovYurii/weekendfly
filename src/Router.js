@@ -40,13 +40,13 @@ const RouterComponent = () => {
                 <Scene key="resetPass" component={ResetPass}/>
             </Scene>
 
-            <Drawer initial
+            <Drawer 
                 hideNavBar
                 key="drawer" 
                 contentComponent={DrawerContent}
                 style={{ backgroundColor: '#4B5B6C' }}
                 drawerIcon={MenuIcon}
-                
+                initial
             >
               <Scene navTransparent={true} renderTitle={() => getTitle("Let's plan", { marginLeft: 65 })} key="plan">
                   <Scene key="selectFlight" component={Flight} />

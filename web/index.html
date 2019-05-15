@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WeekendFly</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+<div class="container shown" id="logIn">
+    <div class="container">
+        <img src="../assets/logo.png" alt="logo" class="logo">
+    </div>
+
+    <div class="container">
+        <div class="container">
+            <input type="email" placeholder="Your email" id="login_email">
+
+            <input type="password" placeholder="Your password" id="login_password">
+
+            <button onclick="logIn()">
+                Log in
+            </button>
+        </div>
+
+        <div class="container">
+            <a onclick="goto('signUp')">
+                Don't have an account? Sign up!
+            </a>
+        </div>
+
+        <div class="container"></div>
+    </div>
+</div>
+
+<div class="container" id="signUp">
+    <div class="container">
+        <img src="../assets/logo.png" alt="logo" class="logo">
+    </div>
+
+    <div class="container">
+        <div class="container">
+            <input type="email" placeholder="Your email" id="signup_email">
+
+            <input type="password" placeholder="Your password" id="signup_password">
+
+            <button onclick="signUp()">
+                Sign up
+            </button>
+        </div>
+
+        <div class="container">
+            <a onclick="goto('logIn')">
+                Already have an account? Log in!
+            </a>
+        </div>
+
+        <div class="container"></div>
+    </div>
+</div>
+
+<div class="container" id="loading">
+    <img src="https://media.giphy.com/media/ujjtnpmlMBoOkgqsRi/giphy.gif" alt="loading_gif">
+</div>
+
+<div class="container" id="form">
+    <div class="header">
+        <div class="container">
+            <img src="../assets/logo.png" alt="header_logo" class="h_logo">
+        </div>
+
+        <div class="container"></div>
+
+        <div class="container row">
+            <a class="h_item active">
+                FORM
+            </a>
+
+            <a class="h_item">
+                PROFILE
+            </a>
+
+            <a class="h_item" onclick="logOut()">
+                LOGOUT
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"
+></script>
+<script src="scripts.js"></script>
+</body>
+</html>

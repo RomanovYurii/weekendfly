@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "WeekendFly",
-    "slug": "weekend-fly",
+    "name": "weekendfly",
+    "slug": "weekendfly",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [

@@ -62,6 +62,14 @@ const
     }, //budget -  how much you can spend on one ticket
 
     //https://desktopapps.ryanair.com/v4/en-gb/availability?ADT=1&CHD=0&DateIn=2019-06-28&DateOut=2019-06-28&Destination=DUB&FlexDaysIn=6&FlexDaysOut=2&INF=0&IncludeConnectingFlights=true&Origin=LCJ&RoundTrip=true&TEEN=0&ToUs=AGREED&exists=false
+    makeTicket = (flight, currency) => {
+        return {
+            dep: moment(flight.time[0]).format('HH:mm'),
+            arr: moment(flight.time[1]).format('HH:mm'),
+            duration: flight.duration,
+            price: convertCurrency(flight.regularFare.fares[0].amount, currency)
+        }
+    },
     getTickets = async (budget, dateTo, dateFrom, destination, origin) => {
         const
             ticketsTo = [],
@@ -80,11 +88,7 @@ const
 
             //Get options for trip to destination
             res.trips[0].dates[0].flights.map(flight => {
-                const ticket = {};
-                ticket.dep = moment(flight.time[0]).format('HH:mm');
-                ticket.arr = moment(flight.time[1]).format('HH:mm');
-                ticket.duration = flight.duration;
-                ticket.price = convertCurrency(flight.regularFare.fares[0].amount, currency);
+                const ticket = makeTicket(flight, currency);
                 if (budget >= ticket.price) {
                     ticketsTo.push(ticket);
                 }
@@ -92,15 +96,10 @@ const
 
             //Get options for trip from destination
             res.trips[1].dates[0].flights.map(flight => {
-                const ticket = {};
-                ticket.dep = moment(flight.time[0]).format('HH:mm');
-                ticket.arr = moment(flight.time[1]).format('HH:mm');
-                ticket.duration = flight.duration;
-                ticket.price = convertCurrency(flight.regularFare.fares[0].amount, currency);
+                const ticket = makeTicket(flight, currency);
                 if (budget >= ticket.price) {
-                    ticketsBack.push(ticket);
+                    ticketsTo.push(ticket);
                 }
-
             });
         });
 

@@ -23,6 +23,11 @@ const
         load();
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(() => {
+                localStorage.setItem('login', JSON.stringify({
+                    email,
+                    password
+                }));
+
                 cleanAll();
                 goto('form');
             })
@@ -47,6 +52,7 @@ const
         load();
         firebase.auth().signOut()
             .then(() => {
+                localStorage.removeItem('login')
                 cleanAll();
                 goto('logIn')
             })
@@ -56,3 +62,19 @@ const
         $('input').val('')
     }
 ;
+
+load();
+if (localStorage.getItem('login')) {
+    const credentials = JSON.parse(localStorage.getItem('login'));
+    firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
+        .then(() => {
+            cleanAll();
+            goto('form');
+        })
+        .catch(e => {
+            alert(e);
+            goto('logIn')
+        });
+} else {
+    goto('logIn')
+}

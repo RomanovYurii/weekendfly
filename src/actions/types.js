@@ -1,6 +1,7 @@
 export const ENTERED_EMAIL = 'entered_email';
 export const ENTERED_PASSWORD = 'entered_password';
 export const LOGS_IN = 'user_logs_in';
+export const LOGS_OUT = 'user_logs_out';
 export const LOGIN_SUCCESSFUL = 'logged_in';
 export const LOGIN_FAILED = 'log_in_failed';
 export const CREATION_SUCCESSFUL = 'user_created';

@@ -84,7 +84,7 @@ class CalView extends Component {
             allowRangeSelection={true}
             minDate={new Date()}
             maxDate={end}
-            maxRangeDuration={1}
+            maxRangeDuration={20}
             onDateChange={this.handleDateChange}
           />
         </View>

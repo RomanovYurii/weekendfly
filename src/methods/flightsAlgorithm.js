@@ -84,14 +84,14 @@ const
             res.trips[1].dates[0].flights.map(flight => {
                 const ticket = makeTicket(flight, currency);
                 if (budget >= ticket.price) {
-                    ticketsTo.push(ticket);
+                    ticketsBack.push(ticket);
                 }
             });
         });
 
         return {
             ticketsTo,
-            ticketsBack,
+            ticketsBack
         }
     }
 ;

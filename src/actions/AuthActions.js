@@ -4,6 +4,7 @@ import {
     ENTERED_EMAIL,
     ENTERED_PASSWORD,
     LOGS_IN,
+    LOGS_OUT,
     LOGIN_FAILED,
     LOGIN_SUCCESSFUL,
     CREATION_SUCCESSFUL,
@@ -11,6 +12,12 @@ import {
     RESET_ERROR,
     RESET_DATA,
 } from './types';
+
+export const logoutUser = () => {
+    return {
+        type: LOGS_OUT,
+    }
+} 
 
 export const changeEmail = (text) => {
     return {

@@ -1,6 +1,7 @@
 import {
     ENTERED_EMAIL,
     ENTERED_PASSWORD,
+    LOGS_OUT,
     LOGS_IN,
     LOGIN_FAILED,
     LOGIN_SUCCESSFUL,
@@ -38,6 +39,8 @@ export default (state = INITIAL_STATE, action) => {
             return { ...state, error: action.payload };
         case RESET_DATA:
             return { ...state, password: '', email: '' };
+        case LOGS_OUT:
+            return { ...state, INITIAL_STATE };
         default:
             return state;
     }

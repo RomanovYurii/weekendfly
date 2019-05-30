@@ -57,11 +57,9 @@ class RouterComp extends Component {
                   contentComponent={DrawerContent}
                   style={{ backgroundColor: '#4B5B6C' }}
                   drawerIcon={MenuIcon}
-                  initial
               >
                 <Scene key="plan" navTransparent={true} renderTitle={() => this.getTitle("Let's plan", { marginLeft: 65 })}>
-                  <Scene key="trial" component={ListExp} />
-                  <Scene key="selectFlight" component={Flight} initial />
+                  <Scene key="selectFlight" component={Flight} />
                   <Scene 
                     key="prefs" 
                     component={Pref} 

@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import {View, Text, ImageBackground, StyleSheet, SectionList, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import firebase from 'firebase';
 import {getTickets} from '../methods/flightsAlgorithm';
 import {Spinner} from './common';
 import FlightItem from './FlightItem';
 import { Button } from './common';
-import { updateTrip } from '../actions'
+import { updateTrip, clearTrip } from '../actions';
 
 class FlightsFound extends Component {
   state = {
@@ -89,8 +90,26 @@ class FlightsFound extends Component {
       onPress={this.fetchFlightBack.bind(this, item, index)}
     />;
 
-  handlePressOffers = () => {
-    console.log('offers pressed');
+  handlePressOffers = async () => {
+      console.log("we've pressed the track button!");
+      await this.props.updateTrip(
+        { 
+          tripData: {
+            dateOut: this.props.date.out, 
+            dateBack: this.props.date.back, 
+            origin: this.props.depart, 
+            destination: this.props.dest, 
+            budget: this.props.budget, 
+            reminding: true,
+          },
+          ticketTo: null,
+          ticketBack: null,
+        }
+      );
+      firebase.database().ref('/trips/' + this.props.user).push(this.props.tripData);
+      this.props.clearTrip();
+      Actions.reset("drawer");
+      Actions.pop();
   };
 
   handlePressOk = async () => {
@@ -186,11 +205,13 @@ const styles = StyleSheet.create({
       }
 });
 
-const mapStatetoProps = ({flightData}) => {
+const mapStatetoProps = ({flightData, planData, auth }) => {
+    const { user } = auth;
     const {depart, dest, budget, date} = flightData;
-    return {depart, dest, budget, date};
+    const { tripData, ticketTo, ticketBack, preferences } = planData;
+    return {depart, dest, budget, date, tripData, ticketTo, ticketBack, preferences, user };
 };
 
-const FlightList = connect(mapStatetoProps, { updateTrip })(FlightsFound);
+const FlightList = connect(mapStatetoProps, { updateTrip, clearTrip })(FlightsFound);
 
 export {FlightList};

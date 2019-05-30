@@ -4,8 +4,18 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Input, Button } from './common';
 import { flightUpdate } from '../actions/';
+import firebase from 'firebase';
 
 class FlightSelection extends Component {
+    handleOkPress = () => {
+        if (this.props.depart && this.props.dest && this.props.date && this.props.budget){
+            Actions.prefs();
+        }
+        else {
+            Alert.alert("Please fill in all fields of the request form!");
+        }
+    }
+
     render() {
         const { containerStyle, textStyle } = styles;
         const backCol = this.props.depart? '#FFF' : '#9F9F9F';
@@ -56,7 +66,7 @@ class FlightSelection extends Component {
                             </View>
 
                             <View style={{ marginTop: 45 }}>
-                                <Button onPress={() => Actions.prefs()} >OK</Button>
+                                <Button onPress={this.handleOkPress} >OK</Button>
                             </View>
 
                     </ScrollView>
@@ -82,9 +92,10 @@ const styles = {
     }
 };
 
-const mapStateToProps = ({ flightData }) => {
+const mapStateToProps = ({ flightData, auth }) => {
     const { depart, dest, budget, date } = flightData;
-    return { depart, dest, budget, date };
+    const { user } = auth;
+    return { depart, dest, budget, date, user };
 };
 
 const Flight = connect(mapStateToProps, { flightUpdate })(FlightSelection);

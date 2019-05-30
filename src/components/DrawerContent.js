@@ -6,14 +6,14 @@ import { Actions } from 'react-native-router-flux';
 
 class DrawerComponent extends Component {
   state = {
-    sections: ['Personal Info', 'Popular Trips', 'Trip History', 'Recommendations', 'Upcoming Trips',"Settings"],
+    sections: ['Planned Trips', 'Trip History', 'Offers', 'Preferences'],
   }
 
-  renderSection = (text, styleText, styleView, onPress) => {
+  renderSection = (text, id, styleText, styleView, onPress) => {
       return (
-        <TouchableOpacity onPress={onPress}>
-          <View style={styleView}>
-            <Text style={styleText}>{text}</Text>
+        <TouchableOpacity key={id} onPress={onPress}>
+          <View key={id} style={styleView}>
+            <Text key={id} style={styleText}>{text}</Text>
           </View>
         </TouchableOpacity>
       );
@@ -29,7 +29,7 @@ class DrawerComponent extends Component {
     return (
       <ImageBackground source={require('../../assets/back_drawer.png')} imageStyle={{ resizeMode: 'cover' }} style={styles.wrapperStyle}>
         <View style={styles.containerStyle}>
-          { this.state.sections.map(item => this.renderSection(item, styles.textStyle, styles.sectionStyle)) }
+          { this.state.sections.map((item, id) => this.renderSection(item, id, styles.textStyle, styles.sectionStyle)) }
           { this.renderSection('Log Out', styles.textStyle, { marginTop: 150, marginLeft: 70 }, this.handleLogOut) }
         </View>
       </ImageBackground>

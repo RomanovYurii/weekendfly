@@ -27,7 +27,7 @@ class PreferenceGridItem extends Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={this.togglePressed}>
+      <TouchableWithoutFeedback onPress={() => { this.props.onPress(); this.togglePressed() }}>
         <View style={[styles.sectionStyle, { backgroundColor: this.modify }]}>
             <Image source={this.state.image} style={styles.imageStyle}/>
             <Text style={styles.textStyle}>{this.state.label}</Text>

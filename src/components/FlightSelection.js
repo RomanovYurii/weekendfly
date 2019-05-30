@@ -7,6 +7,14 @@ import { flightUpdate } from '../actions/';
 import firebase from 'firebase';
 
 class FlightSelection extends Component {
+    handleOkPress = () => {
+        if (this.props.depart && this.props.dest && this.props.date && this.props.budget){
+            Actions.prefs();
+        }
+        else {
+            Alert.alert("Please fill in all fields of the request form!");
+        }
+    }
 
     render() {
         const { containerStyle, textStyle } = styles;
@@ -58,7 +66,7 @@ class FlightSelection extends Component {
                             </View>
 
                             <View style={{ marginTop: 45 }}>
-                                <Button onPress={() => Actions.prefs()} >OK</Button>
+                                <Button onPress={this.handleOkPress} >OK</Button>
                             </View>
 
                     </ScrollView>

@@ -1,6 +1,7 @@
 import {
   SELECTED_TICKETS,
-  SELECTED_PREFERENCES
+  SELECTED_PREFERENCES,
+  CLEAR_TRIP,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -18,6 +19,8 @@ export default (state = INITIAL_STATE, action) => {
           return { ...state, tripData: action.payload.tripData, ticketTo: action.payload.ticketTo, ticketBack: action.payload.ticketBack };
       case SELECTED_PREFERENCES:
           return { ...state, preferences: action.payload };
+      case CLEAR_TRIP:
+        return { ...state, INITIAL_STATE };
       default:
           return state;
   }

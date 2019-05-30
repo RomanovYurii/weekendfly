@@ -6,20 +6,20 @@ import { Button } from './common';
 
 class Sched extends Component{
   render(){
-    const output = this.props.trip;
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>This is the schedule</Text>
-        <Button onPress={() => { console.log(output) }}>Check trip</Button>
+        <Button onPress={() => { console.log(this.props.tripData); 
+          console.log(this.props.ticketTo); console.log(this.props.ticketBack); console.log(this.props.preferences) }}>Check trip</Button>
       </View>
     );
   }
 }
 
 const mapStateToProps = ({ planData, auth }) => {
-  const { trip} = planData;
+  const { tripData, ticketTo, ticketBack, preferences } = planData;
   const { user } = auth;
-  return { trip, user };
+  return { tripData, ticketTo, ticketBack, preferences, user };
 };
 
 const Schedule = connect(mapStateToProps, null)(Sched);

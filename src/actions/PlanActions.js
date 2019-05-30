@@ -1,10 +1,18 @@
 import {
   SELECTED_TICKETS,
+  SELECTED_PREFERENCES,
 } from './types';
 
-export const updateTrip = (data) => {
+export const updateTrip = ({ tripData, ticketTo, ticketBack }) => {
   return {
       type: SELECTED_TICKETS,
-      payload: data
+      payload: { tripData, ticketTo, ticketBack }
   };
+};
+
+export const updatePreferences = (prefs) => {
+  return {
+    type: SELECTED_PREFERENCES,
+    payload: prefs,
+  }
 };

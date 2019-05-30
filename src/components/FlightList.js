@@ -97,12 +97,16 @@ class FlightsFound extends Component {
     if (this.state.selectOut && this.state.selectBack) {
       await this.props.updateTrip(
         { 
-          dateOut: this.props.date.out, 
-          dateBack: this.props.date.back, 
-          origin: this.props.depart, 
-          destination: this.props.dest, 
-          budget: this.props.budget, 
-          reminding: false,
+          tripData: {
+            dateOut: this.props.date.out, 
+            dateBack: this.props.date.back, 
+            origin: this.props.depart, 
+            destination: this.props.dest, 
+            budget: this.props.budget, 
+            reminding: false,
+          },
+          ticketTo: this.state.selectOut.item,
+          ticketBack: this.state.selectBack.item,
         }
       );
       Actions.schedule();

@@ -10,3 +10,4 @@ export const RESET_ERROR = 'reset_error';
 export const RESET_DATA = 'reset_data';
 export const UPDATE_FLIGHT = 'update_flight_data';
 export const SELECTED_TICKETS = 'selected_tickets';
+export const SELECTED_PREFERENCES = "selected_preferences";

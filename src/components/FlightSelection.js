@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Input, Button } from './common';
 import { flightUpdate } from '../actions/';
+import firebase from 'firebase';
 
 class FlightSelection extends Component {
+
     render() {
         const { containerStyle, textStyle } = styles;
         const backCol = this.props.depart? '#FFF' : '#9F9F9F';
@@ -82,9 +84,10 @@ const styles = {
     }
 };
 
-const mapStateToProps = ({ flightData }) => {
+const mapStateToProps = ({ flightData, auth }) => {
     const { depart, dest, budget, date } = flightData;
-    return { depart, dest, budget, date };
+    const { user } = auth;
+    return { depart, dest, budget, date, user };
 };
 
 const Flight = connect(mapStateToProps, { flightUpdate })(FlightSelection);

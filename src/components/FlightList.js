@@ -1,74 +1,192 @@
 import React, {Component} from 'react';
-import {View, Text, ImageBackground} from 'react-native';
+import {View, Text, ImageBackground, StyleSheet, SectionList, Alert } from 'react-native';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 import {getTickets} from '../methods/flightsAlgorithm';
-import {connect} from 'react-redux';
 import {Spinner} from './common';
+import FlightItem from './FlightItem';
+import { Button } from './common';
+import { updateTrip } from '../actions'
 
 class FlightsFound extends Component {
-    state = {
-        ticketsTo: [],
-        ticketsBack: [],
+  state = {
+    ticketsTo: null,
+    ticketsBack: null,
+    selectOut: null,
+    selectBack: null,
+  }
+
+  async componentWillMount() {
+    let {depart, dest, budget, date} = this.props;
+    budget = Number.parseInt(budget)
+    const {out, back} = date;
+    const result = await getTickets(budget, out, back, dest, depart);
+    this.setState({ticketsTo: result.ticketsTo, ticketsBack: result.ticketsBack });
+  }
+
+  fetchFlight = async (item, index) => {
+    if (this.state.selectOut){
+      if (index !== this.state.selectOut.index){
+        await this.setState({ selectOut: { item, index } });
+      }
+      else {
+        await this.setState({ selectOut: null });
+      }
     }
-
-    async componentWillMount() {
-        let {depart, dest, budget, date} = this.props;
-        budget = Number.parseInt(budget)
-
-        const {out, back} = date;
-        console.log("depart" + depart);
-        console.log("dest" + dest);
-        console.log("budget" + typeof budget);
-        console.log("out" + out);
-        console.log("date" + date);
-        const result = await getTickets(budget, out, back, dest, depart);
-        this.setState({ticketsTo: result.ticketsTo, ticketsBack: result.ticketsBack});
+    else {
+      await this.setState({ selectOut: { item, index } });
     }
+  };
 
-    renderFlights = (flight) => {
-        const {arr, dep, duration, price} = flight;
-        return (
-            <View style={{borderWidth: 2, marginBottom: 10}}>
-                <Text>{dep}</Text>
-                <Text>{arr}</Text>
-                <Text>{duration}</Text>
-                <Text>{price}</Text>
-            </View>
-        );
+  fetchFlightBack = async (item, index) => {
+    if (this.state.selectBack){
+      if (index !== this.state.selectBack.index){
+        await this.setState({ selectBack: { item, index } });
+      }
+      else {
+        await this.setState({ selectBack: null });
+      }
     }
+    else{
+      await this.setState({ selectBack: { item, index } });
+    }
+  };
 
-    render() {
-        return (
-            <View style={{flex: 1, justifyContent: 'center', marginTop: 60, alignItems: 'center'}}>
+  isSelected = (index) => {
+    if (this.state.selectOut){
+      return (this.state.selectOut.index === index);
+    }
+    else {
+      return false;
+    }
+  };
 
-                {this.state.ticketsTo && this.state.ticketsBack && (
-                    <View>
-                        <Text>Flights to</Text>
-                        {
-                            this.state.ticketsTo.map(ticket => this.renderFlights(ticket))
-                        }
-                        <Text>Flights back</Text>
-                        {
-                            this.state.ticketsBack.map(ticket => this.renderFlights(ticket))
-                        }
-                    </View>
+  isSelectedBack = (index) => {
+    if (this.state.selectBack){
+      return (this.state.selectBack.index === index);
+    }
+    else {
+      return false;
+    }
+  };
+
+  renderFlight = ({item, index}) => {
+    return( 
+      <FlightItem 
+        key={index} 
+        item={item}
+        selected={this.isSelected.bind(this, index)()}
+        onPress={this.fetchFlight.bind(this, item, index)}
+      />
+    );
+  };
+
+  renderFlightBack = ({item, index}) => 
+    <FlightItem 
+      key={index} 
+      item={item}
+      selected={this.isSelectedBack.bind(this, index)()}
+      onPress={this.fetchFlightBack.bind(this, item, index)}
+    />;
+
+  handlePressOffers = () => {
+    console.log('offers pressed');
+  };
+
+  handlePressOk = async () => {
+    if (this.state.selectOut && this.state.selectBack) {
+      await this.props.updateTrip(
+        { 
+          dateOut: this.props.date.out, 
+          dateBack: this.props.date.back, 
+          origin: this.props.depart, 
+          destination: this.props.dest, 
+          budget: this.props.budget, 
+          reminding: false,
+        }
+      );
+      Actions.schedule();
+    }
+    else {
+      Alert.alert('Please choose inbound and outbound flights!');
+    }
+  };
+
+  render() {
+    return (
+      <View style={{flex: 1}}>
+
+        {this.state.ticketsTo && this.state.ticketsBack && (
+          <ImageBackground source={require('../../assets/back_blank.png')} imageStyle={{ resizeMode: 'cover' }} style={styles.containerStyle}>
+            <View style={{ flex: 3, marginTop: 100 }}>
+              <SectionList
+                renderItem={this.renderFlight}
+                renderSectionHeader={({section: {title}}) => (
+                  <Text style={{ marginLeft: 15, marginBottom: 5, fontFamily: 'kalam-regular', fontSize: 32, color: '#00D0FF' }}>{title}</Text>
                 )}
-
-                {this.state.ticketsTo && this.state.ticketsBack && (
-                    <Spinner size="large"/>
-                )}
-
-
+                sections={[
+                {title: 'Outbound - ' + this.props.date.out, data: this.state.ticketsTo},
+                {title: 'Inbound - ' + this.props.date.back, data: this.state.ticketsBack, renderItem: this.renderFlightBack },
+                ]}
+                extraData={this.state}
+                ItemSeparatorComponent={() => <View style={{ marginTop: 15 }}></View>}
+                renderSectionFooter={() => <View style={{ marginTop: 25 }}></View>}
+                ListFooterComponent={() => <View style={{ marginTop: 15 }}></View>}
+                keyExtractor={(item, index) => item + index}
+              />
             </View>
-        );
-    }
+            <View style={{ flex: 1 }}>
+              <Button onPress={this.handlePressOffers} modify={{ backgroundColor: 'transparent' }}>Track offers</Button>
+              <Button onPress={this.handlePressOk}>OK</Button>
+            </View>
+          </ImageBackground>
+        )}
+
+        {!this.state.ticketsTo && !this.state.ticketsBack && (
+            <Spinner size="large"/>
+        )}
+
+
+      </View>
+    );
+  }
 }
-}
+
+const styles = StyleSheet.create({
+    containerStyle: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+      },
+      sectionStyle: {
+        marginTop: 15,
+        backgroundColor: 'transparent',
+        borderWidth: 2,
+        borderRadius: 15,
+        borderColor: '#00D0FF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 15,
+        marginRight: 15,
+      },
+      headerStyle: {
+          fontFamily: 'kalam-regular',
+          fontSize: 24,
+          color: "#FFF",
+      },
+      textStyle: {
+        fontFamily: 'kalam-regular',
+        fontSize: 14,
+        color: "#FFF",
+      }
+});
 
 const mapStatetoProps = ({flightData}) => {
     const {depart, dest, budget, date} = flightData;
     return {depart, dest, budget, date};
 };
 
-const FlightList = connect(mapStatetoProps, null)(FlightsFound);
+const FlightList = connect(mapStatetoProps, { updateTrip })(FlightsFound);
 
 export {FlightList};

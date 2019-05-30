@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Scene, Drawer, Modal, Actions, Lightbox } from 'react-native-router-flux';
 import { MenuIcon } from './components/common';
 import { TouchableOpacity, Text } from 'react-native';
-import { Welcome, ResetPass, Reg, Pref, Log, Flight, DrawerContent, From, Calendar, ToForm, FlightList } from './components';
+import { Welcome, ResetPass, Reg, Pref, Log, Flight, DrawerContent, From, Calendar, ToForm, FlightList, ListExp, Schedule } from './components';
 import { StackViewStyleInterpolator } from 'react-navigation-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -48,10 +48,12 @@ const RouterComponent = () => {
                 drawerIcon={MenuIcon}
                 initial
             >
-              <Scene navTransparent={true} renderTitle={() => getTitle("Let's plan", { marginLeft: 65 })} key="plan">
-                  <Scene key="selectFlight" component={Flight} />
-                  <Scene key="prefs" component={Pref} back={true} backButtonTintColor={'#00D0FF'}/>
-                  <Scene key="flightList" component={FlightList} back={true} backButtonTintColor={'#00D0FF'}/>
+              <Scene key="plan" navTransparent={true} renderTitle={() => getTitle("Let's plan", { marginLeft: 65 })}>
+                <Scene key="trial" component={ListExp} />
+                <Scene key="selectFlight" component={Flight} initial />
+                <Scene key="prefs" component={Pref} back={true} backButtonTintColor={'#00D0FF'}/>
+                <Scene key="flightList" component={FlightList} back={true} backButtonTintColor={'#00D0FF'}/>
+                <Scene key="schedule" component={Schedule} back={true} backButtonTintColor={'#00D0FF'}/>
               </Scene>
               
             </Drawer>

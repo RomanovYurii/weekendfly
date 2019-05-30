@@ -69,7 +69,7 @@ export const tryLogin = ({ email, password }) => {
         dispatch({ type: LOGS_IN });
 
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(user => { loginUserSuccess(dispatch, user); })
+            .then(user => { loginUserSuccess(dispatch, user.user.uid); })
             .catch((error) => loginUserFail(dispatch, error.message));
     };
 };
@@ -83,8 +83,20 @@ const loginUserSuccess = (dispatch, user) => {
 };
 
 const createUserSuccess = (dispatch) => {
-    dispatch({ type: CREATION_SUCCESSFUL });
-    Actions.welcome();
+    firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid).set({
+        sights: false,
+        museums: false,
+        tours: false,
+        art: false,
+        food: false,
+        history: false,
+        outdoors: false,
+        shopping: false,
+        theaters: false,
+        defaultLocation: false
+    })
+    .then(() => { dispatch({ type: CREATION_SUCCESSFUL }); Actions.welcome(); });
+    
 };
 
 const createUserFail = (dispatch, msg) => {

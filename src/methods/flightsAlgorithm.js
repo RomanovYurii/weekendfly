@@ -40,8 +40,10 @@ const
     }, //budget -  how much you can spend on one ticket
 
     //https://desktopapps.ryanair.com/v4/en-gb/availability?ADT=1&CHD=0&DateIn=2019-06-28&DateOut=2019-06-28&Destination=DUB&FlexDaysIn=6&FlexDaysOut=2&INF=0&IncludeConnectingFlights=true&Origin=LCJ&RoundTrip=true&TEEN=0&ToUs=AGREED&exists=false
-    makeTicket = (flight, currency) => {
+    makeTicket = (flight, currency, destination, origin) => {
         return {
+            dest: destination,
+            ori: origin, 
             dep: moment(flight.time[0]).format('HH:mm'),
             arr: moment(flight.time[1]).format('HH:mm'),
             duration: flight.duration,
@@ -49,19 +51,15 @@ const
         }
     },
     getTickets = async (budget, dateTo, dateFrom, destination, origin) => {
-        console.log("Finding tickets called");
-        console.log(budget, dateTo, dateFrom, destination, origin);
         const myDest = airports.filter(airport => airport.key === destination);
         const myOrig = airports.filter(airport => airport.key === origin);
         origin = myOrig[0].code;
         destination = myDest[0].code;
-        console.log("After code lookup");
-        console.log(budget, dateTo, dateFrom, destination, origin);
         const
             ticketsTo = [],
             ticketsBack = [],
-            url = 'https://desktopapps.ryanair.com/v4/en-gb/availability?ADT=1&CHD=0&DateIn=' + dateTo + '&DateOut=' +
-                dateFrom + '&Destination=' + destination +
+            url = 'https://desktopapps.ryanair.com/v4/en-gb/availability?ADT=1&CHD=0&DateIn=' + dateFrom + '&DateOut=' +
+                dateTo + '&Destination=' + destination +
                 '&FlexDaysIn=0&FlexDaysOut=0&INF=0&IncludeConnectingFlights=false&Origin=' + origin +
                 '&RoundTrip=true&TEEN=0&ToUs=AGREED&exists=false'
         ;
@@ -74,7 +72,7 @@ const
 
             //Get options for trip to destination
             res.trips[0].dates[0].flights.map(flight => {
-                const ticket = makeTicket(flight, currency);
+                const ticket = makeTicket(flight, currency, destination, origin);
                 if (budget >= ticket.price) {
                     ticketsTo.push(ticket);
                 }
@@ -82,7 +80,7 @@ const
 
             //Get options for trip from destination
             res.trips[1].dates[0].flights.map(flight => {
-                const ticket = makeTicket(flight, currency);
+                const ticket = makeTicket(flight, currency, origin, destination);
                 if (budget >= ticket.price) {
                     ticketsBack.push(ticket);
                 }

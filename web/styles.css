@@ -15,8 +15,9 @@ body, body * {
     -khtml-user-select: none; /* Konqueror HTML */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                     supported by Chrome and Opera */
 }
 
 body {
@@ -81,6 +82,12 @@ button {
     border: 3px white dashed;
 }
 
+button.disabled {
+    background-color: transparent;
+    color: #55d0f9;
+    border-color: #55d0f9;
+}
+
 .header {
     position: absolute;
     top: 0;
@@ -89,6 +96,8 @@ button {
     background-color: dodgerblue;
     height: 100px;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center
 }
 
 .h_logo {

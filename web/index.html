@@ -65,23 +65,33 @@
 
 <div class="container" id="form">
     <div class="header">
-        <div class="container">
+        <div style="align-items: center">
             <img src="../assets/logo.png" alt="header_logo" class="h_logo">
         </div>
 
-        <div class="container"></div>
-
-        <div class="container row">
-            <a class="h_item active">
-                FORM
+        <div class="row" style="align-items: center">
+            <a class="h_item active" onclick="goto('form')">
+                New trip
             </a>
 
             <a class="h_item">
-                PROFILE
+                Planned trips
+            </a>
+
+            <a class="h_item">
+                Completed trips
+            </a>
+
+            <a class="h_item" onclick="goto('preferences')">
+                Preferences
+            </a>
+
+            <a class="h_item">
+
             </a>
 
             <a class="h_item" onclick="logOut()">
-                LOGOUT
+                Log Out
             </a>
         </div>
     </div>
@@ -97,12 +107,75 @@
     </div>
 </div>
 
+<div class="container" id="preferences">
+    <div class="header">
+        <div style="align-items: center">
+            <img src="../assets/logo.png" alt="header_logo" class="h_logo">
+        </div>
+
+        <div class="row" style="align-items: center">
+            <a class="h_item" onclick="goto('form')">
+                New trip
+            </a>
+
+            <a class="h_item">
+                Planned trips
+            </a>
+
+            <a class="h_item">
+                Completed trips
+            </a>
+
+            <a class="h_item active">
+                Preferences
+            </a>
+
+            <a class="h_item">
+
+            </a>
+
+            <a class="h_item" onclick="logOut()">
+                Log Out
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="container"></div>
+        <div class="container">
+            <input type="text" placeholder="Default location">
+            <button style="margin-bottom: 40px">SAVE</button>
+        </div>
+
+        <div class="row container">
+            <div class="container">
+                <button id="art" onclick="togglePreference('art')" class="disabled">art</button>
+                <button id="food" onclick="togglePreference('food')" class="disabled">food</button>
+                <button id="history" onclick="togglePreference('history')" class="disabled">history</button>
+            </div>
+            <div class="container">
+                <button id="museums" onclick="togglePreference('museums')" class="disabled">museums</button>
+                <button id="outdoors" onclick="togglePreference('outdoors')" class="disabled">outdoors</button>
+                <button id="shopping" onclick="togglePreference('shopping')" class="disabled">shopping</button>
+            </div>
+            <div class="container">
+                <button id="sights" onclick="togglePreference('sights')" class="disabled">sights</button>
+                <button id="theaters" onclick="togglePreference('theaters')" class="disabled">theaters</button>
+                <button id="tours" onclick="togglePreference('tours')" class="disabled">tours</button>
+            </div>
+        </div>
+
+        <div class="container"></div>
+    </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
 <script
         src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"
 ></script>
-<script src="scripts.js"></script>
+<script src="scripts.js?bundle=1.0"></script>
 </body>
 </html>

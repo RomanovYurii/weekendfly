@@ -42,9 +42,22 @@ const
 
         load();
         firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                cleanAll();
-                goto('logIn');
+            .then(data => {
+                firebase.database().ref('/preferences/' + data.user.uid).update({
+                    art: false,
+                    defaultLocation: false,
+                    food: false,
+                    history: false,
+                    meuseums: false,
+                    outdoors: false,
+                    shopping: false,
+                    sigths: false,
+                    theaters: false,
+                    tours: false
+                }).then(() => {
+                    cleanAll();
+                    goto('logIn');
+                })
             })
             .catch(e => alert(e));
     },
@@ -60,6 +73,9 @@ const
     },
     cleanAll = () => {
         $('input').val('')
+    },
+    togglePreference = name => {
+        $('#' + name).toggleClass('disabled')
     }
 ;
 

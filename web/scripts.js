@@ -76,6 +76,9 @@ const
     },
     togglePreference = name => {
         $('#' + name).toggleClass('disabled')
+    },
+    getTrips = () => {
+
     }
 ;
 

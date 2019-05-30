@@ -74,11 +74,11 @@
                 New trip
             </a>
 
-            <a class="h_item">
+            <a class="h_item" onclick="goto('plannedTrips')">
                 Planned trips
             </a>
 
-            <a class="h_item">
+            <a class="h_item" onclick="goto('completedTrips')">
                 Completed trips
             </a>
 
@@ -118,15 +118,15 @@
                 New trip
             </a>
 
-            <a class="h_item">
+            <a class="h_item" onclick="goto('plannedTrips')">
                 Planned trips
             </a>
 
-            <a class="h_item">
+            <a class="h_item" onclick="goto('completedTrips')">
                 Completed trips
             </a>
 
-            <a class="h_item active">
+            <a class="h_item active" onclick="goto('preferences')">
                 Preferences
             </a>
 
@@ -167,6 +167,97 @@
         </div>
 
         <div class="container"></div>
+    </div>
+</div>
+
+<div class="container" id="plannedTrips">
+    <div class="header">
+        <div style="align-items: center">
+            <img src="../assets/logo.png" alt="header_logo" class="h_logo">
+        </div>
+
+        <div class="row" style="align-items: center">
+            <a class="h_item" onclick="goto('form')">
+                New trip
+            </a>
+
+            <a class="h_item active" onclick="goto('plannedTrips')">
+                Planned trips
+            </a>
+
+            <a class="h_item" onclick="goto('completedTrips')">
+                Completed trips
+            </a>
+
+            <a class="h_item" onclick="goto('preferences')">
+                Preferences
+            </a>
+
+            <a class="h_item">
+
+            </a>
+
+            <a class="h_item" onclick="logOut()">
+                Log Out
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="trip" style="background-color: white">
+            <span style="font-size: 20px"><b>Trip on 21.12 - 23.12</b></span>
+            <span><b>Origin: </b>Lodz</span>
+            <span><b>Destination: </b>Nowhere</span>
+            <span><b>Budget: </b>100.00</span>
+            <div class="places">
+                <span><b>Places to visit:</b></span>
+                <span class="place">&#183; Place to visit</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="completedTrips">
+    <div class="header">
+        <div style="align-items: center">
+            <img src="../assets/logo.png" alt="header_logo" class="h_logo">
+        </div>
+
+        <div class="row" style="align-items: center">
+            <a class="h_item" onclick="goto('form')">
+                New trip
+            </a>
+
+            <a class="h_item" onclick="goto('plannedTrips')">
+                Planned trips
+            </a>
+
+            <a class="h_item active" onclick="goto('completedTrips')">
+                Completed trips
+            </a>
+
+            <a class="h_item" onclick="goto('preferences')">
+                Preferences
+            </a>
+
+            <a class="h_item">
+
+            </a>
+
+            <a class="h_item" onclick="logOut()">
+                Log Out
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <input placeholder="Enter your budget:" type="number">
+        <input placeholder="Date to fly away:" type="text">
+        <input placeholder="Date to get back:" type="text">
+        <input placeholder="From:" type="text">
+        <input placeholder="To:" type="text">
+
+        <button>Search</button>
     </div>
 </div>
 

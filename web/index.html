@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WeekendFly</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+<div class="container shown" id="logIn">
+    <div class="container">
+        <img src="../assets/logo.png" alt="logo" class="logo">
+    </div>
+
+    <div class="container">
+        <div class="container">
+            <input type="email" placeholder="Your email" id="login_email">
+
+            <input type="password" placeholder="Your password" id="login_password">
+
+            <button onclick="logIn()">
+                Log in
+            </button>
+        </div>
+
+        <div class="container">
+            <a onclick="goto('signUp')">
+                Don't have an account? Sign up!
+            </a>
+        </div>
+
+        <div class="container"></div>
+    </div>
+</div>
+
+<div class="container" id="signUp">
+    <div class="container">
+        <img src="../assets/logo.png" alt="logo" class="logo">
+    </div>
+
+    <div class="container">
+        <div class="container">
+            <input type="email" placeholder="Your email" id="signup_email">
+
+            <input type="password" placeholder="Your password" id="signup_password">
+
+            <button onclick="signUp()">
+                Sign up
+            </button>
+        </div>
+
+        <div class="container">
+            <a onclick="goto('logIn')">
+                Already have an account? Log in!
+            </a>
+        </div>
+
+        <div class="container"></div>
+    </div>
+</div>
+
+<div class="container" id="loading">
+    <img src="https://media.giphy.com/media/ujjtnpmlMBoOkgqsRi/giphy.gif" alt="loading_gif">
+</div>
+
+<div class="container" id="form">
+    <div class="header">
+        <div style="align-items: center">
+            <img src="../assets/logo.png" alt="header_logo" class="h_logo">
+        </div>
+
+        <div class="row" style="align-items: center">
+            <!--<a class="h_item active" onclick="goto('form')">
+                New trip
+            </a>-->
+
+            <a class="h_item" onclick="goto('plannedTrips')">
+                Planned trips
+            </a>
+
+            <a class="h_item" onclick="goto('completedTrips')">
+                Completed trips
+            </a>
+
+            <a class="h_item" onclick="goto('preferences')">
+                Preferences
+            </a>
+
+            <a class="h_item">
+
+            </a>
+
+            <a class="h_item" onclick="logOut()">
+                Log Out
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <input placeholder="Enter your budget:" type="number">
+        <input placeholder="Date to fly away:" type="text">
+        <input placeholder="Date to get back:" type="text">
+        <input placeholder="From:" type="text">
+        <input placeholder="To:" type="text">
+
+        <button>Search</button>
+    </div>
+</div>
+
+<div class="container" id="preferences">
+    <div class="header">
+        <div style="align-items: center">
+            <img src="../assets/logo.png" alt="header_logo" class="h_logo">
+        </div>
+
+        <div class="row" style="align-items: center">
+            <!--<a class="h_item" onclick="goto('form')">
+                New trip
+            </a>-->
+
+            <a class="h_item" onclick="goto('plannedTrips')">
+                Planned trips
+            </a>
+
+            <a class="h_item" onclick="goto('completedTrips')">
+                Completed trips
+            </a>
+
+            <a class="h_item active" onclick="goto('preferences')">
+                Preferences
+            </a>
+
+            <a class="h_item">
+
+            </a>
+
+            <a class="h_item" onclick="logOut()">
+                Log Out
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="container"></div>
+
+        <div class="container">
+            <input type="text" placeholder="Default location" id="defaultLocation">
+            <button style="margin-bottom: 40px" onclick="updateDefaultLocation()">SAVE</button>
+        </div>
+
+        <div class="row container">
+            <div class="container">
+                <button id="art" onclick="togglePreference('art')" class="disabled">art</button>
+                <button id="food" onclick="togglePreference('food')" class="disabled">food</button>
+                <button id="history" onclick="togglePreference('history')" class="disabled">history</button>
+            </div>
+            <div class="container">
+                <button id="museums" onclick="togglePreference('museums')" class="disabled">museums</button>
+                <button id="outdoors" onclick="togglePreference('outdoors')" class="disabled">outdoors</button>
+                <button id="shopping" onclick="togglePreference('shopping')" class="disabled">shopping</button>
+            </div>
+            <div class="container">
+                <button id="sights" onclick="togglePreference('sights')" class="disabled">sights</button>
+                <button id="theaters" onclick="togglePreference('theaters')" class="disabled">theaters</button>
+                <button id="tours" onclick="togglePreference('tours')" class="disabled">tours</button>
+            </div>
+        </div>
+
+        <div class="container"></div>
+    </div>
+</div>
+
+<div class="container" id="plannedTrips">
+    <div class="header">
+        <div style="align-items: center">
+            <img src="../assets/logo.png" alt="header_logo" class="h_logo">
+        </div>
+
+        <div class="row" style="align-items: center">
+            <!--<a class="h_item" onclick="goto('form')">
+                New trip
+            </a>-->
+
+            <a class="h_item active" onclick="goto('plannedTrips')">
+                Planned trips
+            </a>
+
+            <a class="h_item" onclick="goto('completedTrips')">
+                Completed trips
+            </a>
+
+            <a class="h_item" onclick="goto('preferences')">
+                Preferences
+            </a>
+
+            <a class="h_item">
+
+            </a>
+
+            <a class="h_item" onclick="logOut()">
+                Log Out
+            </a>
+        </div>
+    </div>
+
+    <div class="container" id="plannedTripsHolder">
+    </div>
+</div>
+
+<div class="container" id="completedTrips">
+    <div class="header">
+        <div style="align-items: center">
+            <img src="../assets/logo.png" alt="header_logo" class="h_logo">
+        </div>
+
+        <div class="row" style="align-items: center">
+            <!--<a class="h_item" onclick="goto('form')">
+                New trip
+            </a>-->
+
+            <a class="h_item" onclick="goto('plannedTrips')">
+                Planned trips
+            </a>
+
+            <a class="h_item active" onclick="goto('completedTrips')">
+                Completed trips
+            </a>
+
+            <a class="h_item" onclick="goto('preferences')">
+                Preferences
+            </a>
+
+            <a class="h_item">
+
+            </a>
+
+            <a class="h_item" onclick="logOut()">
+                Log Out
+            </a>
+        </div>
+    </div>
+
+    <div class="container" id="completedTripsHolder">
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"
+></script>
+<script src="scripts.js?bundle=1.0"></script>
+</body>
+</html>

@@ -9,9 +9,24 @@ const config = {
 firebase.initializeApp(config);
 
 const
-    goto = pageName => {
+    goto = async pageName => {
         $('body > *').removeClass('shown');
         $('#' + pageName).addClass('shown');
+        if (pageName === 'preferences') {
+            load();
+            await firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid)
+                .once('value').then(ref => ref.val())
+                .then(val => {
+                    $('#defaultLocation').val(val.defaultLocation || '')
+                    console.log(val)
+                    $('body > *').removeClass('shown');
+                    $('#' + pageName).addClass('shown');
+                    Object.keys(val).map(key => {
+                        if (val[key])
+                            $('#' + key).toggleClass('disabled')
+                    })
+                })
+        }
     },
     load = () => goto('loading'),
     logIn = () => {
@@ -74,11 +89,24 @@ const
     cleanAll = () => {
         $('input').val('')
     },
-    togglePreference = name => {
-        $('#' + name).toggleClass('disabled')
+    togglePreference = async name => {
+        $('#' + name).toggleClass('disabled');
+
+        await firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid + '/' + name).once('value')
+            .then(ref => ref.val())
+            .then(value => {
+                firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid)
+                    .update({[name]: !value})
+            })
     },
     getTrips = () => {
 
+    },
+    updateDefaultLocation = () => {
+        let v = $('#defaultLocation').val();
+
+        firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid)
+            .update({defaultLocation: v})
     }
 ;
 

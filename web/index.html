@@ -70,9 +70,9 @@
         </div>
 
         <div class="row" style="align-items: center">
-            <a class="h_item active" onclick="goto('form')">
+            <!--<a class="h_item active" onclick="goto('form')">
                 New trip
-            </a>
+            </a>-->
 
             <a class="h_item" onclick="goto('plannedTrips')">
                 Planned trips
@@ -114,9 +114,9 @@
         </div>
 
         <div class="row" style="align-items: center">
-            <a class="h_item" onclick="goto('form')">
+            <!--<a class="h_item" onclick="goto('form')">
                 New trip
-            </a>
+            </a>-->
 
             <a class="h_item" onclick="goto('plannedTrips')">
                 Planned trips
@@ -177,9 +177,9 @@
         </div>
 
         <div class="row" style="align-items: center">
-            <a class="h_item" onclick="goto('form')">
+            <!--<a class="h_item" onclick="goto('form')">
                 New trip
-            </a>
+            </a>-->
 
             <a class="h_item active" onclick="goto('plannedTrips')">
                 Planned trips
@@ -203,21 +203,7 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="trip" style="background-color: white">
-            <div class="title">
-                Trip on 21.12 - 23.12
-            </div>
-
-            <div class="row"><span class="label">Origin:</span>&nbsp;Lodz</div>
-            <div class="row"><span class="label">Destination:</span>&nbsp;Nowhere</div>
-            <div class="row"><span class="label">Budget:</span>&nbsp;100.00</div>
-
-            <div class="places">
-                <span class="label">Places to visit:</span>
-                <span class="place">&nbsp;&nbsp;&nbsp;&#183;&nbsp;&nbsp;&nbsp;Place to visit</span>
-            </div>
-        </div>
+    <div class="container" id="plannedTripsHolder">
     </div>
 </div>
 
@@ -228,9 +214,9 @@
         </div>
 
         <div class="row" style="align-items: center">
-            <a class="h_item" onclick="goto('form')">
+            <!--<a class="h_item" onclick="goto('form')">
                 New trip
-            </a>
+            </a>-->
 
             <a class="h_item" onclick="goto('plannedTrips')">
                 Planned trips
@@ -254,18 +240,12 @@
         </div>
     </div>
 
-    <div class="container">
-        <input placeholder="Enter your budget:" type="number">
-        <input placeholder="Date to fly away:" type="text">
-        <input placeholder="Date to get back:" type="text">
-        <input placeholder="From:" type="text">
-        <input placeholder="To:" type="text">
-
-        <button>Search</button>
+    <div class="container" id="completedTripsHolder">
     </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script
         src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

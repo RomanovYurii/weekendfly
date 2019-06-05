@@ -23,6 +23,7 @@ body, body * {
 body {
     flex: 1;
     background-color: slategray;
+    margin: 0;
 }
 
 body > * {
@@ -89,7 +90,7 @@ button.disabled {
 }
 
 .header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -123,6 +124,9 @@ button.disabled {
     padding: 15px;
     border-radius: 10px;
     border: 3px dashed #55d0f9;
+    width: -webkit-fill-available;
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .trip .title {
@@ -141,4 +145,14 @@ button.disabled {
 
 .trip .places {
     margin-top: 5px;
+}
+
+#plannedTrips {
+    padding-top: 100px;
+}
+
+#plannedTripsHolder {
+    overflow: inherit;
+    justify-content: flex-start;
+    max-height: 80vh;
 }

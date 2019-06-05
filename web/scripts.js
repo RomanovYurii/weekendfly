@@ -10,9 +10,12 @@ firebase.initializeApp(config);
 
 const
     goto = async pageName => {
+        const fdb = firebase.database();
+
         if (pageName === 'preferences') {
+            const uid = firebase.auth().currentUser.uid()
             load();
-            await firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid)
+            await fdb.ref('/preferences/' + uid)
                 .once('value').then(ref => ref.val())
                 .then(val => {
                     $('#defaultLocation').val(val.defaultLocation || '')
@@ -20,11 +23,64 @@ const
                     $('body > *').removeClass('shown');
                     $('#' + pageName).addClass('shown');
                     Object.keys(val).map(async key => {
-                            await $('#' + key).addClass('disabled')
+                        await $('#' + key).addClass('disabled')
                     })
                     Object.keys(val).map(async key => {
                         if (val[key])
                             await $('#' + key).toggleClass('disabled')
+                    })
+                })
+        } else if (pageName === 'plannedTrips') {
+            const uid = firebase.auth().currentUser.uid;
+            load();
+            await fdb.ref('/trips/' + uid).once('value').then(ref => ref.val())
+                .then(async trips => {
+                    $('#plannedTripsHolder').text('')
+                    await Object.keys(trips).map(async tripID => {
+                        const trip = trips[tripID];
+                        trip.dateBack = moment(trip.dateBack).format('DD.MM.YYYY');
+                        trip.dateTo = moment(trip.dateTo).format('DD.MM.YYYY');
+                        $('#plannedTripsHolder').append(`
+                            <div class="trip" style="background-color: white" id="` + tripID + `">
+                                <div class="title">
+                                    Trip on ` + trip.dateTo + ` - ` + trip.dateBack + `
+                                </div>
+                    
+                                <div class="row"><span class="label">Origin:</span>&nbsp;` + trip.origin + `</div>
+                                <div class="row"><span class="label">Destination:</span>&nbsp;` + trip.destination + `</div>
+                                <div class="row"><span class="label">Budget:</span>&nbsp;` + trip.budget + `</div>
+                   
+                                <hr>
+                            </div>
+                        `)
+
+                        await fdb.ref('/tickets/' + tripID).once('value').then(ref => ref.val())
+                            .then(tickets => {
+                                $('#' + tripID).append(
+                                    `<div class="row"><span>` +
+                                    tickets.ticketTo.ori + ' > ' +
+                                    tickets.ticketTo.dest + ' / ' +
+                                    tickets.ticketTo.dep + ' > ' +
+                                    tickets.ticketTo.arr + ' (' +
+                                    tickets.ticketTo.duration + ') / ' +
+                                    tickets.ticketTo.price + ' zl' +
+                                    `</span></div>`
+                                )
+                                $('#' + tripID).append(
+                                    `<div class="row"><span>` +
+                                    tickets.ticketBack.ori + ' > ' +
+                                    tickets.ticketBack.dest + ' / ' +
+                                    tickets.ticketBack.dep + ' > ' +
+                                    tickets.ticketBack.arr + ' (' +
+                                    tickets.ticketBack.duration + ') / ' +
+                                    tickets.ticketBack.price + ' zl' +
+                                    `</span></div><hr> `
+                                )
+                            })
+                            .then(() => {
+                                $('body > *').removeClass('shown');
+                                $('#' + pageName).addClass('shown');
+                            })
                     })
                 })
         } else {
@@ -48,7 +104,7 @@ const
                 }));
 
                 cleanAll();
-                goto('form');
+                goto('plannedTrips');
             })
             .catch(e => alert(e));
     },
@@ -120,7 +176,7 @@ if (localStorage.getItem('login')) {
     firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
         .then(() => {
             cleanAll();
-            goto('form');
+            goto('plannedTrips');
         })
         .catch(e => {
             alert(e);

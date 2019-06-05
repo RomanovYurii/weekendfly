@@ -10,8 +10,6 @@ firebase.initializeApp(config);
 
 const
     goto = async pageName => {
-        $('body > *').removeClass('shown');
-        $('#' + pageName).addClass('shown');
         if (pageName === 'preferences') {
             load();
             await firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid)
@@ -21,11 +19,17 @@ const
                     console.log(val)
                     $('body > *').removeClass('shown');
                     $('#' + pageName).addClass('shown');
-                    Object.keys(val).map(key => {
+                    Object.keys(val).map(async key => {
+                            await $('#' + key).addClass('disabled')
+                    })
+                    Object.keys(val).map(async key => {
                         if (val[key])
-                            $('#' + key).toggleClass('disabled')
+                            await $('#' + key).toggleClass('disabled')
                     })
                 })
+        } else {
+            $('body > *').removeClass('shown');
+            $('#' + pageName).addClass('shown');
         }
     },
     load = () => goto('loading'),

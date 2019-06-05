@@ -39,11 +39,11 @@ const
                     await Object.keys(trips).map(async tripID => {
                         const trip = trips[tripID];
                         trip.dateBack = moment(trip.dateBack).format('DD.MM.YYYY');
-                        trip.dateTo = moment(trip.dateTo).format('DD.MM.YYYY');
+                        trip.dateOut = moment(trip.dateOut).format('DD.MM.YYYY');
                         $('#plannedTripsHolder').append(`
                             <div class="trip" style="background-color: white" id="` + tripID + `">
                                 <div class="title">
-                                    Trip on ` + trip.dateTo + ` - ` + trip.dateBack + `
+                                    Trip on ` + trip.dateOut + ` - ` + trip.dateBack + `
                                 </div>
                     
                                 <div class="row"><span class="label">Origin:</span>&nbsp;` + trip.origin + `</div>

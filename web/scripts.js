@@ -40,6 +40,7 @@ const
                         const trip = trips[tripID];
                         trip.dateBack = moment(trip.dateBack).format('DD.MM.YYYY');
                         trip.dateOut = moment(trip.dateOut).format('DD.MM.YYYY');
+
                         $('#plannedTripsHolder').append(`
                             <div class="trip" style="background-color: white" id="` + tripID + `">
                                 <div class="title">

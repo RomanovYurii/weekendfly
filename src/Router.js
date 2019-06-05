@@ -3,7 +3,7 @@ import { Router, Scene, Drawer, Modal, Actions, Lightbox } from 'react-native-ro
 import { MenuIcon } from './components/common';
 import { connect } from 'react-redux';
 import { TouchableOpacity, Text } from 'react-native';
-import { Welcome, ResetPass, Reg, Pref, Log, Flight, DrawerContent, From, Calendar, ToForm, FlightList, ListExp, Schedule } from './components';
+import { Welcome, ResetPass, Reg, Pref, Log, Flight, DrawerContent, From, Calendar, ToForm, FlightList, ListExp, UserSettings, Schedule } from './components';
 import { StackViewStyleInterpolator } from 'react-navigation-stack';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { clearTrip } from './actions';
@@ -82,6 +82,13 @@ class RouterComp extends Component {
                     renderRightButton={() => this.getCancelPlanButton()}
                   />
                 </Scene>
+
+                <Scene 
+                  key="settings" 
+                  component={UserSettings}
+                  navTransparent={true} 
+                  renderTitle={() => this.getTitle("Let's plan", { marginLeft: 65 })}
+                />
                 
               </Drawer>
             </Scene>

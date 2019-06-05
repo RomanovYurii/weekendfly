@@ -9,11 +9,13 @@ import { clearTrip } from '../actions';
 class Sched extends Component{
   handleFinishPress = async () => {
     console.log('finish pressed');
-    await firebase.database().ref('/trips/' + firebase.auth().currentUser.uid).push(this.props.tripData)
+    const userId = firebase.auth().currentUser.uid;
+    await firebase.database().ref('/trips/' + userId).push(this.props.tripData)
       .then(snap => {
         firebase.database().ref('/tickets/' + snap.key + '/ticketTo/').update(this.props.ticketTo);
         firebase.database().ref('/tickets/' + snap.key + '/ticketBack/').update(this.props.ticketBack);
       });
+    await firebase.database().ref('/preferences/' + userId).update(this.props.preferences);
     this.props.clearTrip();
     Actions.reset("drawer");
     Actions.pop();

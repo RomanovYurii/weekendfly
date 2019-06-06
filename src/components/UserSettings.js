@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, StyleSheet, Alert } from 'react-native';
+import { View, ImageBackground, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import PreferenceGridItem from './PreferenceGridItem';
-import { updatePreferences } from '../actions';
 import { labels, images } from '../data/gridItems';
 import { Button } from './common';
 import firebase from 'firebase';
-
-class Preferences extends Component {
+class Sett extends Component {
   state = {
     items: [ "sights", "museums", "tours", "art", "food", "history", "outdoors", "shopping", "theaters" ],
     selected: {}
@@ -25,7 +23,7 @@ class Preferences extends Component {
   };
 
   renderList = () => {
-    const res = this.state.items.map(key => {
+    const res = this.state.items.map(key => { 
       return (<PreferenceGridItem 
         onPress={this.handlePressedIcon.bind(this, key)} 
         label={labels[key]} 
@@ -43,29 +41,12 @@ class Preferences extends Component {
   };
 
   render(){
-    let setPrefs = false;
-    for( let value of Object.values(this.state.selected) ){
-      if (value === true){
-        setPrefs = true;
-        break;
-      }
-    }
+    const userId = firebase.auth().currentUser.uid;
     return (
       <ImageBackground source={require('../../assets/back_blank.png')} imageStyle={{ resizeMode: 'cover' }} style={styles.containerStyle} >
         {this.renderList.bind(this)()}
         <View style={{ marginBottom: 20 }}>
-          <Button onPress={() => { 
-            if (setPrefs) {
-              this.props.updatePreferences(this.state.selected); 
-              Actions.flightList();
-            }
-            else {
-              Alert.alert("Please select some preferences!");
-            }
-          }
-          }>
-            OK
-          </Button>
+          <Button onPress={async () => { await firebase.database().ref('/preferences/' + userId).update(this.state.selected); Actions.pop()}}>OK</Button>
         </View>
       </ImageBackground>
     );
@@ -88,5 +69,5 @@ const styles = StyleSheet.create({
   }
 });
 
-const Pref = connect(null, { updatePreferences })(Preferences);
-export { Pref };
+const UserSettings = connect(null, null)(Sett);
+export { UserSettings };

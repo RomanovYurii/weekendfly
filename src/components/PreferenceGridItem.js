@@ -9,26 +9,27 @@ class PreferenceGridItem extends Component {
   state = {
     label: this.props.label,
     image: this.props.image,
-    pressed: this.props.pressed,
   }
 
-  modify = this.state.pressed? '#00D0FF' : 'transparent';
+  componentWillReceiveProps(newProps){
+    this.pressed = newProps.pressed;
+  }
 
-  togglePressed = async () => { 
-    if (this.state.pressed) { 
-      this.modify = 'transparent';
-      await this.setState({ pressed: false }); 
+  pressed = this.props.pressed;
+  
+  togglePressed = () => { 
+    if (this.pressed) { 
+      this.pressed = false; 
     }
     else {
-      this.modify = '#00D0FF';
-      await this.setState({ pressed: true });
+      this.pressed = true;
     }
   }
 
   render() {
     return (
       <TouchableWithoutFeedback onPress={() => { this.props.onPress(); this.togglePressed() }}>
-        <View style={[styles.sectionStyle, { backgroundColor: this.modify }]}>
+        <View style={[styles.sectionStyle, { backgroundColor: this.pressed? '#00D0FF': 'transparent' }]}>
             <Image source={this.state.image} style={styles.imageStyle}/>
             <Text style={styles.textStyle}>{this.state.label}</Text>
         </View>

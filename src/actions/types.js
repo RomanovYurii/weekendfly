@@ -12,3 +12,4 @@ export const UPDATE_FLIGHT = 'update_flight_data';
 export const SELECTED_TICKETS = 'selected_tickets';
 export const SELECTED_PREFERENCES = "selected_preferences";
 export const CLEAR_TRIP = "clear_trip";
+export const DEF_HOME = "home_selected";

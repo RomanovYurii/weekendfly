@@ -11,3 +11,4 @@ export * from './ToPicker';
 export * from './FlightList';
 export * from './ListExp';
 export * from './Schedule';
+export * from './UserSettings';

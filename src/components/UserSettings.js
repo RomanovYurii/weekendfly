@@ -6,33 +6,32 @@ import PreferenceGridItem from './PreferenceGridItem';
 import { updatePreferences } from '../actions';
 import { labels, images } from '../data/gridItems';
 import { Button } from './common';
-import firebase, { auth } from 'firebase';
-
+import firebase from 'firebase';
 class Sett extends Component {
   state = {
     items: [ "sights", "museums", "tours", "art", "food", "history", "outdoors", "shopping", "theaters" ],
-    selected: {},
+    selected: {}
   }
 
   async componentWillMount(){
-    console.log(firebase.auth().currentUser.uid);
-
-    console.log(this.state.selected);
-
-    let prefs = firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid);
-    await prefs.once('value').then(ref => ref.val()).then((userPrefs) => {console.log(userPrefs)});
-  };
+    var userPrefs;
+    await firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid).once('value')
+      .then((snapshot) => {userPrefs = snapshot.val(); this.setState({ selected: userPrefs }); });
+  }
 
   handlePressedIcon = async (key) => {
     await this.setState({ selected: { ...this.state.selected, [key]: !this.state.selected[key] } });
   };
 
   renderList = () => {
-    const res = this.state.items.map(key => 
-      <PreferenceGridItem 
+    console.log("renderList called");
+    const res = this.state.items.map(key => { 
+      return (<PreferenceGridItem 
         onPress={this.handlePressedIcon.bind(this, key)} 
         label={labels[key]} 
-        image={images[key]}/>
+        image={images[key]}
+        pressed={this.state.selected[key]}
+      />)}
     );
     return (
       <View style={{ flex: 1, justifyContent: 'center', marginTop: 55 }}>
@@ -44,11 +43,12 @@ class Sett extends Component {
   };
 
   render(){
+    const userId = firebase.auth().currentUser.uid;
     return (
       <ImageBackground source={require('../../assets/back_blank.png')} imageStyle={{ resizeMode: 'cover' }} style={styles.containerStyle} >
         {this.renderList.bind(this)()}
         <View style={{ marginBottom: 20 }}>
-          <Button onPress={() => { this.props.updatePreferences(this.state.selected); Actions.flightList() }}>OK</Button>
+          <Button onPress={async () => { await firebase.database().ref('/preferences/' + userId).update(this.state.selected); Actions.pop()}}>OK</Button>
         </View>
       </ImageBackground>
     );
@@ -71,5 +71,5 @@ const styles = StyleSheet.create({
   }
 });
 
-const UserSettings = connect(null, { updatePreferences })(Sett);
+const UserSettings = connect(null, null)(Sett);
 export { UserSettings };

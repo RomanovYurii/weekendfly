@@ -24,9 +24,6 @@ class Preferences extends Component {
   }
 
   handlePressedIcon = async (key) => {
-    console.log("handlePressedIcon called on");
-    console.log(key);
-    console.log(this.state.selected[key]);
     await this.setState({ selected: { ...this.state.selected, [key]: !this.state.selected[key] } });
   };
 
@@ -35,7 +32,9 @@ class Preferences extends Component {
       <PreferenceGridItem 
         onPress={this.handlePressedIcon.bind(this, key)} 
         label={labels[key]} 
-        image={images[key]}/>
+        image={images[key]}
+        pressed={this.state.selected[key]}
+      />
     );
     return (
       <View style={{ flex: 1, justifyContent: 'center', marginTop: 55 }}>

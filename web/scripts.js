@@ -13,7 +13,7 @@ const
         const fdb = firebase.database();
 
         if (pageName === 'preferences') {
-            const uid = firebase.auth().currentUser.uid()
+            const uid = firebase.auth().currentUser.uid
             load();
             await fdb.ref('/preferences/' + uid)
                 .once('value').then(ref => ref.val())
@@ -36,12 +36,13 @@ const
             await fdb.ref('/trips/' + uid).once('value').then(ref => ref.val())
                 .then(async trips => {
                     $('#plannedTripsHolder').text('')
-                    await Object.keys(trips).map(async tripID => {
-                        const trip = trips[tripID];
-                        trip.dateBack = moment(trip.dateBack).format('DD.MM.YYYY');
-                        trip.dateOut = moment(trip.dateOut).format('DD.MM.YYYY');
+                    if (trips)
+                        await Object.keys(trips).map(async tripID => {
+                            const trip = trips[tripID];
+                            trip.dateBack = moment(trip.dateBack).format('DD.MM.YYYY');
+                            trip.dateOut = moment(trip.dateOut).format('DD.MM.YYYY');
 
-                        $('#plannedTripsHolder').append(`
+                            $('#plannedTripsHolder').append(`
                             <div class="trip" style="background-color: white" id="` + tripID + `">
                                 <div class="title">
                                     Trip on ` + trip.dateOut + ` - ` + trip.dateBack + `
@@ -55,34 +56,39 @@ const
                             </div>
                         `)
 
-                        await fdb.ref('/tickets/' + tripID).once('value').then(ref => ref.val())
-                            .then(tickets => {
-                                $('#' + tripID).append(
-                                    `<div class="row"><span>` +
-                                    tickets.ticketTo.ori + ' > ' +
-                                    tickets.ticketTo.dest + ' / ' +
-                                    tickets.ticketTo.dep + ' > ' +
-                                    tickets.ticketTo.arr + ' (' +
-                                    tickets.ticketTo.duration + ') / ' +
-                                    tickets.ticketTo.price + ' zl' +
-                                    `</span></div>`
-                                )
-                                $('#' + tripID).append(
-                                    `<div class="row"><span>` +
-                                    tickets.ticketBack.ori + ' > ' +
-                                    tickets.ticketBack.dest + ' / ' +
-                                    tickets.ticketBack.dep + ' > ' +
-                                    tickets.ticketBack.arr + ' (' +
-                                    tickets.ticketBack.duration + ') / ' +
-                                    tickets.ticketBack.price + ' zl' +
-                                    `</span></div><hr> `
-                                )
-                            })
-                            .then(() => {
-                                $('body > *').removeClass('shown');
-                                $('#' + pageName).addClass('shown');
-                            })
-                    })
+                            await fdb.ref('/tickets/' + tripID).once('value').then(ref => ref.val())
+                                .then(tickets => {
+                                    $('#' + tripID).append(
+                                        `<div class="row"><span>` +
+                                        tickets.ticketTo.ori + ' > ' +
+                                        tickets.ticketTo.dest + ' / ' +
+                                        tickets.ticketTo.dep + ' > ' +
+                                        tickets.ticketTo.arr + ' (' +
+                                        tickets.ticketTo.duration + ') / ' +
+                                        tickets.ticketTo.price + ' zl' +
+                                        `</span></div>`
+                                    )
+                                    $('#' + tripID).append(
+                                        `<div class="row"><span>` +
+                                        tickets.ticketBack.ori + ' > ' +
+                                        tickets.ticketBack.dest + ' / ' +
+                                        tickets.ticketBack.dep + ' > ' +
+                                        tickets.ticketBack.arr + ' (' +
+                                        tickets.ticketBack.duration + ') / ' +
+                                        tickets.ticketBack.price + ' zl' +
+                                        `</span></div><hr> `
+                                    )
+                                })
+                                .then(() => {
+                                    $('body > *').removeClass('shown');
+                                    $('#' + pageName).addClass('shown');
+                                })
+                        })
+                    else {
+                        $('body > *').removeClass('shown');
+                        $('#' + pageName).addClass('shown');
+                    }
+
                 })
         } else {
             $('body > *').removeClass('shown');
@@ -105,7 +111,7 @@ const
                 }));
 
                 cleanAll();
-                goto('plannedTrips');
+                goto('preferences');
             })
             .catch(e => alert(e));
     },
@@ -177,7 +183,7 @@ if (localStorage.getItem('login')) {
     firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
         .then(() => {
             cleanAll();
-            goto('plannedTrips');
+            goto('preferences');
         })
         .catch(e => {
             alert(e);

@@ -84,19 +84,18 @@ const loginUserSuccess = (dispatch, user) => {
 
 const createUserSuccess = (dispatch) => {
     firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid).set({
-        sights: false,
-        museums: false,
-        tours: false,
+        sight: false,
+        museum: false,
+        tour: false,
         art: false,
         food: false,
         history: false,
-        outdoors: false,
-        shopping: false,
-        theaters: false,
+        outdoor: false,
+        shop: false,
+        theater: false,
         defaultLocation: false
     })
     .then(() => { dispatch({ type: CREATION_SUCCESSFUL }); Actions.welcome(); });
-    
 };
 
 const createUserFail = (dispatch, msg) => {

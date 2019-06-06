@@ -1,76 +1,71 @@
 import React, {Component} from 'react';
-import {Text, View, ImageBackground, SectionList} from 'react-native';
-import {labels} from '../data/gridItems';
+import {Text, View, ImageBackground, SectionList, TouchableHighlight} from 'react-native';
+import PlaceItem from './PlaceItem';
 
 class PlacesList extends Component {
-// we will have props preferences - prefs
-// we will have props -> array of data - dataTrip
+  state = {
+    places: {}
+  }
 
-    componentWillMount() {
-        console.log("places list mounting");
-        console.log(this.props.allPlaces)
+    componentWillReceiveProps(newProps){
+      this.allPlaces = newProps.allPlaces;
     }
+
+    allPlaces = this.props.allPlaces;
 
     generateSections = (places) => {
         const newPlaces = [];
-        console.log(places);
         for (let place of places) {
-            console.log(place);
             let newPlace = {};
             newPlace.title = place[0];
             place.shift();
             newPlace.data = place;
             newPlaces.push(newPlace);
         }
-        console.log(newPlaces);
         return newPlaces;
     }
 
     renderPlace = (place) => {
+        console.log(place.item.name);
+        console.log(place.item.address);
         return (
+          <TouchableHighlight 
+            onPress={ () => this.setState({ places: { ...this.state.places, [place.item.name]: [place.item.address] } } ) }
+            underlayColor='#00D0FF'
+          >
             <View>
-                <Text>{place.name}</Text>
-                <Text>{place.address}</Text>
+              <Text>{place.item.name}</Text>
+              <Text>{place.item.address}</Text>
             </View>
+          </TouchableHighlight>
         );
     }
 
     render() {
         return (
-            <ImageBackground source={require('../../assets/back_blank.png')} imageStyle={{resizeMode: 'cover'}}
-                             style={styles.containerStyle}>
-                <View style={{flex: 3, marginTop: 100}}>
-                    <SectionList
-                        renderItem={item => this.renderPlace(item)}
-                        renderSectionHeader={({section: {title}}) => (
-                            <Text style={{
-                                marginLeft: 15,
-                                marginBottom: 5,
-                                fontFamily: 'kalam-regular',
-                                fontSize: 36,
-                                color: '#FFF'
-                            }}>{title}</Text>
-                        )}
-                        sections={() => this.generateSections(this.props.allPlaces)}
-                        extraData={this.props.allPlaces}
-                        ItemSeparatorComponent={() => <View style={{marginTop: 15}}></View>}
-                        renderSectionFooter={() => <View style={{marginTop: 25}}></View>}
-                        ListFooterComponent={() => <View style={{marginTop: 15}}></View>}
-                        keyExtractor={(item, index) => item + index}
-                    />
-                </View>
-            </ImageBackground>
+          <View style={{flex: 3, marginTop: 100}}>
+              <SectionList
+                renderItem={this.renderPlace}
+                renderSectionHeader={({section: {title}}) => (
+                    <Text style={{
+                        marginLeft: 15,
+                        marginBottom: 5,
+                        fontFamily: 'kalam-regular',
+                        fontSize: 36,
+                        color: '#FFF'
+                    }}>{title}</Text>
+                )}
+                sections={this.generateSections(this.props.allPlaces)}
+                extraData={this.props.allPlaces}
+                ItemSeparatorComponent={() => <View style={{marginTop: 15}}></View>}
+                renderSectionFooter={() => <View style={{marginTop: 25}}></View>}
+                ListFooterComponent={() => <View style={{marginTop: 15}}></View>}
+                keyExtractor={(item, index) => item + index}
+            />
+          </View>
         );
     }
 };
 
-const styles = {
-    containerStyle: {
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: '#fff',
-        justifyContent: 'center',
-    },
-};
 
 export {PlacesList};

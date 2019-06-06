@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, ImageBackground } from 'react-native';
 import firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
@@ -15,7 +15,6 @@ class Sched extends Component {
 
     async componentWillMount() {
         this.setState({allPlaces: await getPlaces(this.props.dest, this.props.preferences)});
-        console.log(this.state);
     }
 
     handleFinishPress = async () => {
@@ -34,8 +33,9 @@ class Sched extends Component {
 
     render() {
         return (
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <Text>This is the schedule</Text>
+          <ImageBackground source={require('../../assets/back_blank.png')} imageStyle={{resizeMode: 'cover'}}
+                             style={styles.containerStyle}>
+            <View style={{flex: 1, justifyContent: 'center' }}>
                 <PlacesList allPlaces={this.state.allPlaces}/>
                 <Button onPress={() => {
                     console.log(this.props.tripData);
@@ -46,6 +46,7 @@ class Sched extends Component {
                 <Button onPress={this.handleFinishPress}>Finish</Button>
                 <Button onPress={() => console.log(this.state.allPlaces)}>Check Places</Button>
             </View>
+          </ImageBackground>
         );
     }
 }
@@ -56,6 +57,15 @@ const mapStateToProps = ({planData, auth, flightData}) => {
     const {dest} = flightData;
     return {tripData, ticketTo, ticketBack, preferences, user, dest};
 };
+
+const styles = {
+  containerStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+}
 
 const Schedule = connect(mapStateToProps, {clearTrip})(Sched);
 

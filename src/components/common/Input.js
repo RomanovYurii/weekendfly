@@ -1,26 +1,26 @@
 import React from 'react';
-import { TextInput, View } from 'react-native';
+import {TextInput, View} from 'react-native';
 
-const Input = ({ value, onChangeText, placeholder, secureTextEntry, modify, autoCapitalize, onFocus, autoFocus, edit, keyboardType }) => {
-    const { inputStyle, containerStyle, lineStyle } = styles;
+const Input = ({value, onChangeText, placeholder, secureTextEntry, modify, autoCapitalize, onFocus, autoFocus, edit, keyboardType}) => {
+    const {inputStyle, containerStyle, lineStyle} = styles;
 
     return (
-        <View style={ [containerStyle, modify] }>
+        <View style={[containerStyle, modify]}>
             <TextInput
                 secureTextEntry={secureTextEntry}
                 placeholder={placeholder}
                 autoCorrect={false}
-                style={ inputStyle }
+                style={inputStyle}
                 value={value}
                 placeholderTextColor='#BFBFBF'
                 onChangeText={onChangeText}
                 autoCapitalize={autoCapitalize}
                 onFocus={onFocus}
                 autoFocus={autoFocus}
-                editable={edit? true: edit}
+                editable={edit ? true : edit}
                 keyboardType={keyboardType}
             />
-            <View style= { lineStyle } />
+            <View style={lineStyle}/>
         </View>
     );
 };
@@ -59,4 +59,4 @@ const styles = {
     }
 };
 
-export { Input };
+export {Input};

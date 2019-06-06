@@ -1,5 +1,5 @@
 import firebase from 'firebase';
-import { Actions } from 'react-native-router-flux';
+import {Actions} from 'react-native-router-flux';
 import {
     ENTERED_EMAIL,
     ENTERED_PASSWORD,
@@ -17,7 +17,7 @@ export const logoutUser = () => {
     return {
         type: LOGS_OUT,
     }
-} 
+}
 
 export const changeEmail = (text) => {
     return {
@@ -46,12 +46,14 @@ export const resetData = () => {
     };
 };
 
-export const createUser = ({ email, password }) => {
+export const createUser = ({email, password}) => {
     return (dispatch) => {
-        dispatch({ type: LOGS_IN });
+        dispatch({type: LOGS_IN});
 
         firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(() => { createUserSuccess(dispatch); })
+            .then(() => {
+                createUserSuccess(dispatch);
+            })
             .catch((error) => createUserFail(dispatch, error.message));
     };
 };
@@ -59,17 +61,23 @@ export const createUser = ({ email, password }) => {
 export const resetPassword = (email) => {
     return (dispatch) => {
         firebase.auth().sendPasswordResetEmail(email)
-            .then( () => { createUserSuccess(dispatch); } )
-            .catch( (error) => { createUserFail(dispatch, error.message); } ) 
+            .then(() => {
+                createUserSuccess(dispatch);
+            })
+            .catch((error) => {
+                createUserFail(dispatch, error.message);
+            })
     };
 }
 
-export const tryLogin = ({ email, password }) => {
+export const tryLogin = ({email, password}) => {
     return (dispatch) => {
-        dispatch({ type: LOGS_IN });
+        dispatch({type: LOGS_IN});
 
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(user => { loginUserSuccess(dispatch, user.user.uid); })
+            .then(user => {
+                loginUserSuccess(dispatch, user.user.uid);
+            })
             .catch((error) => loginUserFail(dispatch, error.message));
     };
 };
@@ -95,13 +103,16 @@ const createUserSuccess = (dispatch) => {
         theater: false,
         defaultLocation: false
     })
-    .then(() => { dispatch({ type: CREATION_SUCCESSFUL }); Actions.welcome(); });
+        .then(() => {
+            dispatch({type: CREATION_SUCCESSFUL});
+            Actions.welcome();
+        });
 };
 
 const createUserFail = (dispatch, msg) => {
-    dispatch({ type: CREATION_FAILED, payload: msg });
+    dispatch({type: CREATION_FAILED, payload: msg});
 };
 
 const loginUserFail = (dispatch, msg) => {
-    dispatch({ type: LOGIN_FAILED, payload: msg });
+    dispatch({type: LOGIN_FAILED, payload: msg});
 };

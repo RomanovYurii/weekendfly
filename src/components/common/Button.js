@@ -1,16 +1,16 @@
 import React from 'react';
-import { Text, TouchableHighlight } from 'react-native';
+import {Text, TouchableHighlight} from 'react-native';
 
-const Button = ({ onPress, children, modify }) => {
-    const { buttonStyle, textStyle } = styles;
+const Button = ({onPress, children, modify}) => {
+    const {buttonStyle, textStyle} = styles;
 
     return (
         <TouchableHighlight
-            onPress={onPress} 
+            onPress={onPress}
             underlayColor="#00D0FF"
-            style={ [buttonStyle, modify] }
+            style={[buttonStyle, modify]}
         >
-            <Text style={ textStyle } >
+            <Text style={textStyle}>
                 {children}
             </Text>
         </TouchableHighlight>
@@ -39,4 +39,4 @@ const styles = {
     }
 };
 
-export { Button };
+export {Button};

@@ -43,7 +43,7 @@ const
     makeTicket = (flight, currency, destination, origin) => {
         return {
             dest: destination,
-            ori: origin, 
+            ori: origin,
             dep: moment(flight.time[0]).format('HH:mm'),
             arr: moment(flight.time[1]).format('HH:mm'),
             duration: flight.duration,

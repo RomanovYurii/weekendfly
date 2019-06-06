@@ -12,7 +12,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case UPDATE_FLIGHT:
-            return { ...state, [action.payload.data]: action.payload.value };
+            return {...state, [action.payload.data]: action.payload.value};
         default:
             return state;
     }

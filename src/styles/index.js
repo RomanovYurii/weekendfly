@@ -8,9 +8,9 @@ const globalStyles = {
         marginRight: 15
     },
     linkStyle: {
-        alignSelf: 'center', 
-        fontSize: 16, 
-        textDecorationLine: 'underline' 
+        alignSelf: 'center',
+        fontSize: 16,
+        textDecorationLine: 'underline'
     }
 };
 

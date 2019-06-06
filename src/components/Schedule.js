@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Button } from './common';
 import { clearTrip } from '../actions';
+import { PlacesList } from './PlacesList';
 import getPlaces from '../methods/placesAlgorithm';
 
 class Sched extends Component{
@@ -13,8 +14,12 @@ class Sched extends Component{
   }
 
   async componentWillMount(){
+    console.log('componentWillMount started');
     const places = await getPlaces(this.props.dest, this.props.preferences);
+    console.log("checking places");
+    console.log(places);
     this.setState({ allPlaces: places });
+    console.log(this.state);
   }
 
   handleFinishPress = async () => {
@@ -25,6 +30,7 @@ class Sched extends Component{
         firebase.database().ref('/tickets/' + snap.key + '/ticketBack/').update(this.props.ticketBack);
       });
     await firebase.database().ref('/preferences/' + userId).update(this.props.preferences);
+    // add push places here
     this.props.clearTrip();
     Actions.reset("drawer");
     Actions.pop();
@@ -34,6 +40,7 @@ class Sched extends Component{
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>This is the schedule</Text>
+        {/*<PlacesList allPlaces={this.state.allPlaces}/>*/}
         <Button onPress={() => { console.log(this.props.tripData); 
           console.log(this.props.ticketTo); console.log(this.props.ticketBack); console.log(this.props.preferences) }}>Check trip</Button>
         <Button onPress={this.handleFinishPress}>Finish</Button>

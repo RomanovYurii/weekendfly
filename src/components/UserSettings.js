@@ -8,7 +8,7 @@ import { Button } from './common';
 import firebase from 'firebase';
 class Sett extends Component {
   state = {
-    items: [ "sights", "museums", "tours", "art", "food", "history", "outdoors", "shopping", "theaters" ],
+    items: [ "sight", "museum", "tour", "art", "food", "history", "outdoor", "shop", "theater" ],
     selected: {}
   }
 

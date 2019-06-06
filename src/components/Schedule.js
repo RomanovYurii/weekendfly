@@ -5,10 +5,19 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Button } from './common';
 import { clearTrip } from '../actions';
+import getPlaces from '../methods/placesAlgorithm';
 
 class Sched extends Component{
+  state = {
+    allPlaces: [],
+  }
+
+  async componentWillMount(){
+    const places = await getPlaces(this.props.dest, this.props.preferences);
+    this.setState({ allPlaces: places });
+  }
+
   handleFinishPress = async () => {
-    console.log('finish pressed');
     const userId = firebase.auth().currentUser.uid;
     await firebase.database().ref('/trips/' + userId).push(this.props.tripData)
       .then(snap => {
@@ -28,15 +37,17 @@ class Sched extends Component{
         <Button onPress={() => { console.log(this.props.tripData); 
           console.log(this.props.ticketTo); console.log(this.props.ticketBack); console.log(this.props.preferences) }}>Check trip</Button>
         <Button onPress={this.handleFinishPress}>Finish</Button>
+        <Button onPress={() => console.log(this.state.allPlaces)}>Check Places</Button>
       </View>
     );
   }
 }
 
-const mapStateToProps = ({ planData, auth }) => {
+const mapStateToProps = ({ planData, auth, flightData }) => {
   const { tripData, ticketTo, ticketBack, preferences } = planData;
   const { user } = auth;
-  return { tripData, ticketTo, ticketBack, preferences, user };
+  const { dest } = flightData;
+  return { tripData, ticketTo, ticketBack, preferences, user, dest };
 };
 
 const Schedule = connect(mapStateToProps, { clearTrip })(Sched);

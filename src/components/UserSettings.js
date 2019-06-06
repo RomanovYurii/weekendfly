@@ -3,7 +3,6 @@ import { View, ImageBackground, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import PreferenceGridItem from './PreferenceGridItem';
-import { updatePreferences } from '../actions';
 import { labels, images } from '../data/gridItems';
 import { Button } from './common';
 import firebase from 'firebase';
@@ -24,7 +23,6 @@ class Sett extends Component {
   };
 
   renderList = () => {
-    console.log("renderList called");
     const res = this.state.items.map(key => { 
       return (<PreferenceGridItem 
         onPress={this.handlePressedIcon.bind(this, key)} 

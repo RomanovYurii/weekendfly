@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
-import { View, ImageBackground, StyleSheet } from 'react-native';
+import { View, ImageBackground, StyleSheet, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import PreferenceGridItem from './PreferenceGridItem';
 import { updatePreferences } from '../actions';
 import { labels, images } from '../data/gridItems';
 import { Button } from './common';
+import firebase from 'firebase';
 
 class Preferences extends Component {
   state = {
     items: [ "sights", "museums", "tours", "art", "food", "history", "outdoors", "shopping", "theaters" ],
-    selected: {
-      sights: false,
-      museums: false,
-      tours: false,
-      art: false,
-      food: false,
-      history: false,
-      outdoors: false,
-      shopping: false,
-      theaters: false,
-    }
+    selected: {}
+  }
+
+  async componentWillMount(){
+    var userPrefs;
+    await firebase.database().ref('/preferences/' + firebase.auth().currentUser.uid).once('value')
+      .then((snapshot) => {userPrefs = snapshot.val(); this.setState({ selected: userPrefs }); });
   }
 
   handlePressedIcon = async (key) => {
@@ -28,13 +25,13 @@ class Preferences extends Component {
   };
 
   renderList = () => {
-    const res = this.state.items.map(key => 
-      <PreferenceGridItem 
+    const res = this.state.items.map(key => {
+      return (<PreferenceGridItem 
         onPress={this.handlePressedIcon.bind(this, key)} 
         label={labels[key]} 
         image={images[key]}
         pressed={this.state.selected[key]}
-      />
+      />)}
     );
     return (
       <View style={{ flex: 1, justifyContent: 'center', marginTop: 55 }}>
@@ -46,11 +43,29 @@ class Preferences extends Component {
   };
 
   render(){
+    let setPrefs = false;
+    for( let value of Object.values(this.state.selected) ){
+      if (value === true){
+        setPrefs = true;
+        break;
+      }
+    }
     return (
       <ImageBackground source={require('../../assets/back_blank.png')} imageStyle={{ resizeMode: 'cover' }} style={styles.containerStyle} >
         {this.renderList.bind(this)()}
         <View style={{ marginBottom: 20 }}>
-          <Button onPress={() => { this.props.updatePreferences(this.state.selected); Actions.flightList() }}>OK</Button>
+          <Button onPress={() => { 
+            if (setPrefs) {
+              this.props.updatePreferences(this.state.selected); 
+              Actions.flightList();
+            }
+            else {
+              Alert.alert("Please select some preferences!");
+            }
+          }
+          }>
+            OK
+          </Button>
         </View>
       </ImageBackground>
     );

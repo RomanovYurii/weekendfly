@@ -13,27 +13,20 @@ class PreferenceGridItem extends Component {
 
   componentWillReceiveProps(newProps){
     this.pressed = newProps.pressed;
-    console.log("received");
-    console.log(this.pressed);
   }
 
   pressed = this.props.pressed;
   
-
   togglePressed = () => { 
-    console.log("toggling press");
     if (this.pressed) { 
       this.pressed = false; 
-      console.log(this.pressed);
     }
     else {
       this.pressed = true;
-      console.log(this.pressed);
     }
   }
 
   render() {
-    console.log("Here are new props: " + this.pressed);
     return (
       <TouchableWithoutFeedback onPress={() => { this.props.onPress(); this.togglePressed() }}>
         <View style={[styles.sectionStyle, { backgroundColor: this.pressed? '#00D0FF': 'transparent' }]}>

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Text, View, ImageBackground, SectionList, TouchableHighlight} from 'react-native';
-import PlaceItem from './PlaceItem';
 
 class PlacesList extends Component {
   state = {
@@ -26,11 +25,17 @@ class PlacesList extends Component {
     }
 
     renderPlace = (place) => {
-        console.log(place.item.name);
-        console.log(place.item.address);
         return (
           <TouchableHighlight 
-            onPress={ () => this.setState({ places: { ...this.state.places, [place.item.name]: [place.item.address] } } ) }
+            onPress={ () => {
+              try {
+              this.setState(
+                {places: {
+                  ...this.state.places, 
+                  [place.item.name.replace(/ /g, '_').replace('(', '_').replace(')', '_')]: place.item.address
+                }}
+              ) } catch (e) {console.log(e)}
+            }}
             underlayColor='#00D0FF'
           >
             <View>

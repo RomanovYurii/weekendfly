@@ -1,10 +1,9 @@
 {
-  "devToolsPort": 19002,
-  "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 1800,
+  "packagerPid": 9680,
   "expoServerNgrokUrl": "https://fm-pha.anonymous.weekendfly.exp.direct",
   "packagerNgrokUrl": "https://packager.fm-pha.anonymous.weekendfly.exp.direct",
-  "ngrokPid": 8316,
-  "webpackServerPort": null
+  "ngrokPid": 10440,
+  "devToolsPort": 19002,
+  "expoServerPort": 19000
 }

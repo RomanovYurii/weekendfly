@@ -7,7 +7,7 @@ class PlacesList extends Component{
 // we will have props -> array of data - dataTrip
 
 componentWillMount(){
-  console.log("mounting");
+  console.log("places list mounting");
   console.log(this.props.allPlaces)
 }
 
@@ -27,10 +27,12 @@ generateSections = (places) => {
 }
 
 renderPlace = (place) => {
-  <View>
-    <Text>{place.name}</Text>
-    <Text>{place.address}</Text>
-  </View>
+  return ( 
+    <View>
+      <Text>{place.name}</Text>
+      <Text>{place.address}</Text>
+    </View>
+  );
 }
 
   render(){
@@ -38,11 +40,11 @@ renderPlace = (place) => {
       <ImageBackground source={require('../../assets/back_blank.png')} imageStyle={{ resizeMode: 'cover' }} style={styles.containerStyle} >
         <View style={{ flex: 3, marginTop: 100 }}>
           <SectionList
-            renderItem={(item) => this.renderPlace(item)}
+            renderItem={() => this.renderPlace}
             renderSectionHeader={({section: {title}}) => (
               <Text style={{ marginLeft: 15, marginBottom: 5, fontFamily: 'kalam-regular', fontSize: 36, color: '#FFF' }}>{title}</Text>
             )}
-            sections={this.generateSections(this.props.allPlaces)}
+            sections={() => this.generateSections(this.props.allPlaces)}
             extraData={this.props.allPlaces}
             ItemSeparatorComponent={() => <View style={{ marginTop: 15 }}></View>}
             renderSectionFooter={() => <View style={{ marginTop: 25 }}></View>}

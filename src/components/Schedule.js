@@ -14,11 +14,7 @@ class Sched extends Component{
   }
 
   async componentWillMount(){
-    console.log('componentWillMount started');
-    const places = await getPlaces(this.props.dest, this.props.preferences);
-    console.log("checking places");
-    console.log(places);
-    this.setState({ allPlaces: places });
+    this.setState({ allPlaces: await getPlaces(this.props.dest, this.props.preferences) });
     console.log(this.state);
   }
 
@@ -40,7 +36,7 @@ class Sched extends Component{
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>This is the schedule</Text>
-        {/*<PlacesList allPlaces={this.state.allPlaces}/>*/}
+        <PlacesList allPlaces={this.state.allPlaces}/>
         <Button onPress={() => { console.log(this.props.tripData); 
           console.log(this.props.ticketTo); console.log(this.props.ticketBack); console.log(this.props.preferences) }}>Check trip</Button>
         <Button onPress={this.handleFinishPress}>Finish</Button>

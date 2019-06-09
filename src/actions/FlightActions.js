@@ -1,5 +1,6 @@
 import {
     UPDATE_FLIGHT,
+    CLEAR_FLIGHT,
 } from './types';
 
 export const flightUpdate = ({data, value}) => {
@@ -8,4 +9,11 @@ export const flightUpdate = ({data, value}) => {
         payload: {data, value}
     };
 };
+
+export const clearFlight = (defaultLocation) => {
+    return {
+        type: CLEAR_FLIGHT,
+        payload: defaultLocation? defaultLocation: '',
+    }
+}
 

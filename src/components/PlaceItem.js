@@ -8,12 +8,8 @@ class PlaceItem extends Component {
 
     componentWillReceiveProps(newProps) {
         this.pressed = newProps.pressed;
-        this.name = newProps.item.name;
-        this.address = newProps.item.address;
     }
 
-    name = this.props.name;
-    address = this.props.address;
     pressed = this.props.pressed;
 
     togglePressed = () => {

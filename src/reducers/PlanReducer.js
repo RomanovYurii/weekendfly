@@ -10,7 +10,7 @@ const INITIAL_STATE = {
     ticketTo: null,
     ticketBack: null,
     preferences: null,
-    home: null,
+    defaultLocation: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
         case CLEAR_TRIP:
             return {...state, INITIAL_STATE};
         case DEF_HOME:
-            return {...state, home: action.payload}
+            return {...state, defaultLocation: action.payload}
         default:
             return state;
     }

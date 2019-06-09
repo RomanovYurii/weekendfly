@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {Button} from './common';
-import {clearTrip} from '../actions';
+import {clearTrip, clearFlight} from '../actions';
 import {PlacesList} from './PlacesList';
 import getPlaces from '../methods/placesAlgorithm';
 
@@ -19,18 +19,15 @@ class Sched extends Component {
     }
 
     handleFinishPress = async () => {
-        console.log("handling Finish press");
         const selectedPlaces = this.refs.list.placesPush.filter(item => item.selected === true);
         const FormattedPlaces = selectedPlaces.map(item => { 
             let newItem = {}
             for (let value of Object.keys(item)) {
                 if (value !== 'id' && value !== 'selected')
-                    newItem[value] = item[value];
+                    newItem[value] = item[value]? item[value]: ' ';
             }
             return newItem;
         })
-        console.log(selectedPlaces);
-        console.log(FormattedPlaces);
 
         const userId = firebase.auth().currentUser.uid;
         await firebase.database().ref('/trips/' + userId).push(this.props.tripData)
@@ -66,10 +63,10 @@ class Sched extends Component {
 }
 
 const mapStateToProps = ({planData, auth, flightData}) => {
-    const {tripData, ticketTo, ticketBack, preferences} = planData;
+    const {tripData, ticketTo, ticketBack, preferences, defaultLocation } = planData;
     const {user} = auth;
     const {dest} = flightData;
-    return {tripData, ticketTo, ticketBack, preferences, user, dest};
+    return {tripData, ticketTo, ticketBack, preferences, user, dest, defaultLocation };
 };
 
 const styles = {
@@ -81,6 +78,6 @@ const styles = {
   },
 }
 
-const Schedule = connect(mapStateToProps, {clearTrip})(Sched);
+const Schedule = connect(mapStateToProps, { clearTrip, clearFlight })(Sched);
 
 export {Schedule};

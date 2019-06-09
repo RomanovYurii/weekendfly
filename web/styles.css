@@ -124,9 +124,9 @@ button.disabled {
     padding: 15px;
     border-radius: 10px;
     border: 3px dashed #55d0f9;
-    width: -webkit-fill-available;
-    margin-bottom: 15px;
-    margin-top: 15px;
+    width: 20%;
+    margin: 15px auto;
+    min-height: -webkit-fill-available;
 }
 
 .trip .title {
@@ -136,6 +136,7 @@ button.disabled {
 
 .trip .label {
     text-decoration: underline;
+    font-weight: bold;
 }
 
 .trip .row {
@@ -155,4 +156,8 @@ button.disabled {
     overflow: inherit;
     justify-content: flex-start;
     max-height: 80vh;
+    width: -webkit-fill-available;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: end;
 }

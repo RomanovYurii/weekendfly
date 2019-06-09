@@ -1,9 +1,9 @@
 {
   "packagerPort": 19001,
-  "packagerPid": 11252,
-  "expoServerNgrokUrl": "https://ws-y3c.anonymous.weekendfly.exp.direct",
-  "packagerNgrokUrl": "https://packager.ws-y3c.anonymous.weekendfly.exp.direct",
-  "ngrokPid": 5836,
+  "packagerPid": 6012,
+  "expoServerNgrokUrl": "https://h2-vp9.yu-admin.weekendfly.exp.direct",
+  "packagerNgrokUrl": "https://packager.h2-vp9.yu-admin.weekendfly.exp.direct",
+  "ngrokPid": 15040,
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "webpackServerPort": null

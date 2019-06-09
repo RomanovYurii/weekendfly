@@ -43,46 +43,101 @@ const
                             trip.dateOut = moment(trip.dateOut).format('DD.MM.YYYY');
 
                             $('#plannedTripsHolder').append(`
-                            <div class="trip" style="background-color: white" id="` + tripID + `">
-                                <div class="title">
-                                    Trip on ` + trip.dateOut + ` - ` + trip.dateBack + `
-                                </div>
-                    
-                                <div class="row"><span class="label">Origin:</span>&nbsp;` + trip.origin + `</div>
-                                <div class="row"><span class="label">Destination:</span>&nbsp;` + trip.destination + `</div>
-                                <div class="row"><span class="label">Budget:</span>&nbsp;` + trip.budget + `</div>
-                   
-                                <hr>
-                            </div>
-                        `)
+                                <div class="trip" style="background-color: white" id="` + tripID + `">
+                                    <div class="row" style="justify-content: space-between;">
+                                        <span class="label">` + trip.origin + `</span>
+                                        <span class="label">` + trip.destination + `</span>
+                                    </div>
+                                    
+                                    <div class="row" style="justify-content: space-between;">
+                                        <span>` + trip.dateOut + `</span>
+                                        <span>` + trip.dateBack + `</span>
+                                    </div>
+                                    
+                                    <div class="row" style="align-items: center;">
+                                        <img src="https://image.flaticon.com/icons/svg/846/846061.svg" style="height: 30px;">
+                                        <span style="margin-left: 10px;">Budget: ` + trip.budget + ` zl</span>
+                                    </div>
+                                    
+                                    <hr>
+                                    
+                                    <div class="row" style="justify-content: center;">
+                                        <span class="label">Your tickets</span>
+                                    </div>
+                                </div>`
+                            )
 
                             await fdb.ref('/tickets/' + tripID).once('value').then(ref => ref.val())
                                 .then(tickets => {
-                                    $('#' + tripID).append(
-                                        `<div class="row"><span>` +
-                                        tickets.ticketTo.ori + ' > ' +
-                                        tickets.ticketTo.dest + ' / ' +
-                                        tickets.ticketTo.dep + ' > ' +
-                                        tickets.ticketTo.arr + ' (' +
-                                        tickets.ticketTo.duration + ') / ' +
-                                        tickets.ticketTo.price + ' zl' +
-                                        `</span></div>`
-                                    )
-                                    $('#' + tripID).append(
-                                        `<div class="row"><span>` +
-                                        tickets.ticketBack.ori + ' > ' +
-                                        tickets.ticketBack.dest + ' / ' +
-                                        tickets.ticketBack.dep + ' > ' +
-                                        tickets.ticketBack.arr + ' (' +
-                                        tickets.ticketBack.duration + ') / ' +
-                                        tickets.ticketBack.price + ' zl' +
-                                        `</span></div><hr> `
+                                    $('#' + tripID).append(`
+                                        <div class="row" style="justify-content: space-around">
+                                            <div style="justify-content: center; align-items: center">
+                                                <img src="https://image.flaticon.com/icons/svg/1274/1274834.svg" style="height: 30px">
+                                                <span>${tickets.ticketTo.ori}</span>
+                                                <span>${tickets.ticketTo.dep}</span>
+                                            </div>
+                                            
+                                            <div style="justify-content: center; align-items: center">
+                                                <div style="width: 100px; height: 1px; background-color: black"></div>
+                                                <span style="margin-top: 10px">${tickets.ticketTo.duration}</span>
+                                                <span class="label" style="margin-top: 0px">${tickets.ticketTo.price + ' zl'}</span>
+                                            </div>
+                                            
+                                            <div style="justify-content: center; align-items: center">
+                                                <img src="https://image.flaticon.com/icons/svg/1274/1274833.svg" style="height: 30px">
+                                                <span>${tickets.ticketTo.dest}</span>
+                                                <span>${tickets.ticketTo.arr}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row" style="justify-content: space-around; margin-top: 10px;">
+                                            <div style="justify-content: center; align-items: center">
+                                                <img src="https://image.flaticon.com/icons/svg/1274/1274834.svg" style="height: 30px">
+                                                <span>${tickets.ticketBack.ori}</span>
+                                                <span>${tickets.ticketBack.dep}</span>
+                                            </div>
+                                            
+                                            <div style="justify-content: center; align-items: center">
+                                                <div style="width: 100px; height: 1px; background-color: black"></div>
+                                                <span style="margin-top: 10px">${tickets.ticketBack.duration}</span>
+                                                <span class="label" style="margin-top: 0px">${tickets.ticketBack.price + ' zl'}</span>
+                                            </div>
+                                            
+                                            <div style="justify-content: center; align-items: center">
+                                                <img src="https://image.flaticon.com/icons/svg/1274/1274833.svg" style="height: 30px">
+                                                <span>${tickets.ticketBack.dest}</span>
+                                                <span>${tickets.ticketBack.arr}</span>
+                                            </div>
+                                        </div>`
                                     )
                                 })
-                                .then(() => {
-                                    $('body > *').removeClass('shown');
-                                    $('#' + pageName).addClass('shown');
+
+
+                            await fdb.ref('/places/' + tripID).once('value').then(ref => ref.val())
+                                .then(places => {
+                                    if (Object.keys(places).length !== 0) {
+                                        $('#' + tripID).append(`
+                                            <hr>
+                                                
+                                            <div class="row" style="justify-content: center;">
+                                                <span class="label">Your places to visit</span>
+                                            </div>
+                                            
+                                            <ul id="places-${tripID}"></ul>`
+                                        );
+
+                                        for (let placeName of Object.keys(places)) {
+                                            $('#places-' + tripID).append(
+                                                `<div style="margin-bottom: 15px;">
+                                                    <span style="font-weight: bold; font-style: italic;">"${placeName}"</span>
+                                                    <span>${places[placeName]}</span>
+                                                </div>`
+                                            )
+                                        }
+                                    }
                                 })
+                            $('body > *').removeClass('shown');
+                            $('#' + pageName).addClass('shown');
                         })
                     else {
                         $('body > *').removeClass('shown');
@@ -111,7 +166,7 @@ const
                 }));
 
                 cleanAll();
-                goto('preferences');
+                goto('plannedTrips');
             })
             .catch(e => alert(e));
     },
@@ -183,7 +238,7 @@ if (localStorage.getItem('login')) {
     firebase.auth().signInWithEmailAndPassword(credentials.email, credentials.password)
         .then(() => {
             cleanAll();
-            goto('preferences');
+            goto('plannedTrips');
         })
         .catch(e => {
             alert(e);

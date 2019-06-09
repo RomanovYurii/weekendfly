@@ -15,9 +15,10 @@ import {
     Calendar,
     ToForm,
     FlightList,
-    ListExp,
     UserSettings,
     Schedule,
+    TripHistory,
+    TripPlanned
 } from './components';
 import {StackViewStyleInterpolator} from 'react-navigation-stack';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
@@ -112,7 +113,21 @@ class RouterComp extends Component {
                                     key="settings"
                                     component={UserSettings}
                                     navTransparent={true}
-                                    renderTitle={() => this.getTitle("Let's plan", {marginLeft: 65})}
+                                    renderTitle={() => this.getTitle("Preferences", {marginLeft: 65})}
+                                />
+
+                                <Scene 
+                                    key="history"
+                                    component={TripHistory}
+                                    navTransparent={true}
+                                    renderTitle={() => this.getTitle("Trip History", {marginLeft: 65})}
+                                />
+
+                                <Scene 
+                                    key="future"
+                                    component={TripPlanned}
+                                    navTransparent={true}
+                                    renderTitle={() => this.getTitle("Upcoming trips", {marginLeft: 65})}
                                 />
 
                             </Drawer>

@@ -11,8 +11,6 @@ export const flightUpdate = ({data, value}) => {
 };
 
 export const clearFlight = (defaultLocation) => {
-    console.log("clearing flight");
-    console.log(defaultLocation);
     return {
         type: CLEAR_FLIGHT,
         payload: defaultLocation? defaultLocation: '',

@@ -12,3 +12,5 @@ export * from './FlightList';
 export * from './ListExp';
 export * from './Schedule';
 export * from './UserSettings';
+export * from './TripHistory';
+export * from './TripPlanned';

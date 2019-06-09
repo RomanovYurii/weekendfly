@@ -31,10 +31,10 @@ class DrawerComponent extends Component {
                              style={styles.wrapperStyle}>
                 <View style={styles.containerStyle}>
                     {this.renderSection(this.state.sections[0], styles.textStyle, styles.sectionStyle, () => {
-                        console.log("Planned trips")
+                        Actions.future();
                     })}
                     {this.renderSection(this.state.sections[1], styles.textStyle, styles.sectionStyle, () => {
-                        console.log("Trip History")
+                        Actions.history();
                     })}
                     {this.renderSection(this.state.sections[2], styles.textStyle, styles.sectionStyle, () => {
                         console.log("Offers")

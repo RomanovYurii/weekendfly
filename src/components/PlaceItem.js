@@ -1,13 +1,19 @@
 import React, {Component} from 'react';
-import {View, Text, Image, TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import {View, Text, TouchableWithoutFeedback, StyleSheet} from 'react-native';
 
 class PlaceItem extends Component {
-
+    state = {
+        selected: false,
+    }
 
     componentWillReceiveProps(newProps) {
         this.pressed = newProps.pressed;
+        this.name = newProps.item.name;
+        this.address = newProps.item.address;
     }
 
+    name = this.props.name;
+    address = this.props.address;
     pressed = this.props.pressed;
 
     togglePressed = () => {
@@ -23,7 +29,8 @@ class PlaceItem extends Component {
         return (
             <TouchableWithoutFeedback onPress={() => {
                 this.props.onPress();
-                this.togglePressed()
+                this.togglePressed();
+                this.setState({ selected: !this.state.selected })
             }}>
                 <View style={[styles.sectionStyle, {backgroundColor: this.pressed ? '#00D0FF' : 'transparent'}]}>
                     <Text style={styles.textStyle}>{this.props.item.name}</Text>

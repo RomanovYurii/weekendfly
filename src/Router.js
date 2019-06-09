@@ -17,7 +17,7 @@ import {
     FlightList,
     ListExp,
     UserSettings,
-    Schedule
+    Schedule,
 } from './components';
 import {StackViewStyleInterpolator} from 'react-navigation-stack';
 import {MaterialCommunityIcons} from '@expo/vector-icons';

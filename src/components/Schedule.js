@@ -13,19 +13,33 @@ class Sched extends Component {
         allPlaces: [],
     }
 
+
     async componentWillMount() {
         this.setState({allPlaces: await getPlaces(this.props.dest, this.props.preferences)});
     }
 
     handleFinishPress = async () => {
+        console.log("handling Finish press");
+        const selectedPlaces = this.refs.list.placesPush.filter(item => item.selected === true);
+        const FormattedPlaces = selectedPlaces.map(item => { 
+            let newItem = {}
+            for (let value of Object.keys(item)) {
+                if (value !== 'id' && value !== 'selected')
+                    newItem[value] = item[value];
+            }
+            return newItem;
+        })
+        console.log(selectedPlaces);
+        console.log(FormattedPlaces);
+
         const userId = firebase.auth().currentUser.uid;
         await firebase.database().ref('/trips/' + userId).push(this.props.tripData)
             .then(snap => {
                 firebase.database().ref('/tickets/' + snap.key + '/ticketTo/').update(this.props.ticketTo);
                 firebase.database().ref('/tickets/' + snap.key + '/ticketBack/').update(this.props.ticketBack);
+                FormattedPlaces.map(item => firebase.database().ref('/places/' + snap.key).update(item));
             });
         await firebase.database().ref('/preferences/' + userId).update(this.props.preferences);
-        // add push places here
         this.props.clearTrip();
         Actions.reset("drawer");
         Actions.pop();
@@ -36,7 +50,7 @@ class Sched extends Component {
           <ImageBackground source={require('../../assets/back_blank.png')} imageStyle={{resizeMode: 'cover'}}
                              style={styles.containerStyle}>
             <View style={{flex: 1, justifyContent: 'center' }}>
-                <PlacesList allPlaces={this.state.allPlaces}/>
+                <PlacesList ref="list" allPlaces={this.state.allPlaces}/>
                 <Button onPress={() => {
                     console.log(this.props.tripData);
                     console.log(this.props.ticketTo);

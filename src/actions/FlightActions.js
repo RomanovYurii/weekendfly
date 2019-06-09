@@ -4,7 +4,6 @@ import {
 } from './types';
 
 export const flightUpdate = ({data, value}) => {
-    console.log("dispatching:" + data + "; " + value);
     return {
         type: UPDATE_FLIGHT,
         payload: {data, value}
@@ -12,6 +11,8 @@ export const flightUpdate = ({data, value}) => {
 };
 
 export const clearFlight = (defaultLocation) => {
+    console.log("clearing flight");
+    console.log(defaultLocation);
     return {
         type: CLEAR_FLIGHT,
         payload: defaultLocation? defaultLocation: '',

@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {Button} from './common';
-import {clearTrip, clearFlight} from '../actions';
+import {clearTrip, clearFlight, flightUpdate} from '../actions';
 import {PlacesList} from './PlacesList';
 import getPlaces from '../methods/placesAlgorithm';
 
@@ -37,7 +37,8 @@ class Sched extends Component {
                 FormattedPlaces.map(item => firebase.database().ref('/places/' + snap.key).update(item));
             });
         await firebase.database().ref('/preferences/' + userId).update(this.props.preferences);
-        this.props.clearTrip();
+        await this.props.clearFlight(this.props.defaultLocation);
+        await this.props.clearTrip();
         Actions.reset("drawer");
         Actions.pop();
     }
@@ -78,6 +79,6 @@ const styles = {
   },
 }
 
-const Schedule = connect(mapStateToProps, { clearTrip, clearFlight })(Sched);
+const Schedule = connect(mapStateToProps, { clearTrip, clearFlight, flightUpdate })(Sched);
 
 export {Schedule};

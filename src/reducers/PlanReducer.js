@@ -10,7 +10,7 @@ const INITIAL_STATE = {
     ticketTo: null,
     ticketBack: null,
     preferences: null,
-    defaultLocation: null,
+    defaultLocation: '',
 };
 
 export default (state = INITIAL_STATE, action) => {

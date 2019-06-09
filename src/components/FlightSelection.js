@@ -7,9 +7,6 @@ import {flightUpdate} from '../actions/';
 import firebase from 'firebase';
 
 class FlightSelection extends Component {
-    state = {
-        switch: false
-    }
 
     handleOkPress = () => {
         if (this.props.depart && this.props.dest && this.props.date && this.props.budget) {
@@ -44,7 +41,7 @@ class FlightSelection extends Component {
                             <Text style={textStyle}>Going to</Text>
                             <Input
                                 modify={{marginTop: 0, backgroundColor: backCol}}
-                                value={this.props.dest}
+                                value={this.props.depart && (this.props.depart !== this.props.defaultLocation)? this.props.dest: ''}
                                 onFocus={() => {
                                     Actions.toForm();
                                 }}
@@ -103,10 +100,11 @@ const styles = {
     }
 };
 
-const mapStateToProps = ({flightData, auth}) => {
+const mapStateToProps = ({flightData, auth, planData}) => {
     const {depart, dest, budget, date} = flightData;
     const {user} = auth;
-    return {depart, dest, budget, date, user};
+    const {defaultLocation} = planData;
+    return {depart, dest, budget, date, user, defaultLocation};
 };
 
 const Flight = connect(mapStateToProps, {flightUpdate})(FlightSelection);

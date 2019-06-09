@@ -15,7 +15,7 @@ export default (state = INITIAL_STATE, action) => {
         case UPDATE_FLIGHT:
             return {...state, [action.payload.data]: action.payload.value};
         case CLEAR_FLIGHT:
-            return {...INITIAL_STATE, depart: action.payload}
+            return {...state, depart: action.payload, date: { out: '', back: '' }, budget: ''}
         default:
             return state;
     }

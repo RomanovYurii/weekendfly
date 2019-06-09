@@ -17,6 +17,7 @@ class OutPicker extends Component {
 
     componentWillMount() {
         this.props.flightUpdate({data: 'depart', value: ''});
+        this.props.flightUpdate({data: 'dest', value: ''});
     }
 
     handleChangeText = async (value) => {

@@ -7,6 +7,10 @@ import {flightUpdate} from '../actions/';
 import firebase from 'firebase';
 
 class FlightSelection extends Component {
+    state = {
+        switch: false
+    }
+
     handleOkPress = () => {
         if (this.props.depart && this.props.dest && this.props.date && this.props.budget) {
             Actions.prefs();
@@ -32,9 +36,7 @@ class FlightSelection extends Component {
                             <Input
                                 modify={{marginTop: 0}}
                                 value={this.props.depart}
-                                onFocus={() => {
-                                    Actions.from();
-                                }}
+                                onFocus={() => Actions.from() }
                             />
                         </View>
 
@@ -42,7 +44,7 @@ class FlightSelection extends Component {
                             <Text style={textStyle}>Going to</Text>
                             <Input
                                 modify={{marginTop: 0, backgroundColor: backCol}}
-                                value={this.props.depart? this.props.dest: ''}
+                                value={this.props.dest}
                                 onFocus={() => {
                                     Actions.toForm();
                                 }}

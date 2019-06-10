@@ -37,15 +37,14 @@ class DrawerComponent extends Component {
                         Actions.history();
                     })}
                     {this.renderSection(this.state.sections[2], styles.textStyle, styles.sectionStyle, () => {
-                        console.log("Offers")
+                        Actions.offers();
                     })}
                     {this.renderSection(this.state.sections[3], styles.textStyle, styles.sectionStyle,
                         () => {
-                            console.log("Preferences");
                             Actions.settings()
                         })}
                     {this.renderSection('Log Out', styles.textStyle, {
-                        marginTop: 150,
+                        marginTop: 250,
                         marginLeft: 70
                     }, this.handleLogOut)}
                 </View>

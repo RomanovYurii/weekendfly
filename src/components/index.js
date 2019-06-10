@@ -14,3 +14,4 @@ export * from './Schedule';
 export * from './UserSettings';
 export * from './TripHistory';
 export * from './TripPlanned';
+export * from './Offers';

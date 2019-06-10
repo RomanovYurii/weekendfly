@@ -46,7 +46,6 @@ class TripPlanned extends Component{
       trip.tickets = pushTickets;
       trip.places = pushPlaces;
     }
-    console.log(this.state.trips);
     await this.setState({ loading: false, trips: filteredTrips });
   }
 

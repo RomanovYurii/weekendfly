@@ -5,6 +5,7 @@ import {Actions} from 'react-native-router-flux';
 import {flightUpdate} from '../actions';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import CalendarPicker from 'react-native-calendar-picker';
+import datesBlocked from '../data/datesBlocked';
 
 const {height: deviceHeight, width: deviceWidth} = Dimensions.get('window');
 
@@ -82,6 +83,7 @@ class CalView extends Component {
                         allowRangeSelection={true}
                         minDate={new Date()}
                         maxDate={end}
+                        disabledDates={datesBlocked}
                         maxRangeDuration={20}
                         onDateChange={this.handleDateChange}
                     />

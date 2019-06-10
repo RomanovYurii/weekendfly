@@ -22,7 +22,7 @@ class FlightsFound extends Component {
         budget = Number.parseInt(budget)
         const {out, back} = date;
         const result = await getTickets(budget, out, back, dest, depart);
-        this.setState({ticketsTo: result.ticketsTo, ticketsBack: result.ticketsBack});
+        this.setState({ticketsTo: result.ticketsTo, ticketsBack: result.ticketsBack});     
     }
 
     fetchFlight = async (item, index) => {
@@ -91,7 +91,6 @@ class FlightsFound extends Component {
         />;
 
     handlePressOffers = async () => {
-        console.log("we've pressed the track button!");
         await this.props.updateTrip(
             {
                 tripData: {

@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
         case CLEAR_TRIP:
             return {...state, INITIAL_STATE};
         case DEF_HOME:
-            return {...state, defaultLocation: action.payload}
+            return {...state, defaultLocation: action.payload? action.payload: null}
         default:
             return state;
     }

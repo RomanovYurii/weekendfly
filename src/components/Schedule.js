@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, ImageBackground } from 'react-native';
+import {Text, View, ImageBackground, Alert } from 'react-native';
 import firebase from 'firebase';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
@@ -28,7 +28,10 @@ class Sched extends Component {
             }
             return newItem;
         })
-
+        if (FormattedPlaces.length === 0){
+            Alert.alert("Please select some places to visit");
+            return;
+        }
         const userId = firebase.auth().currentUser.uid;
         await firebase.database().ref('/trips/' + userId).push(this.props.tripData)
             .then(snap => {
@@ -49,14 +52,7 @@ class Sched extends Component {
                              style={styles.containerStyle}>
             <View style={{flex: 1, justifyContent: 'center' }}>
                 <PlacesList ref="list" allPlaces={this.state.allPlaces}/>
-                <Button onPress={() => {
-                    console.log(this.props.tripData);
-                    console.log(this.props.ticketTo);
-                    console.log(this.props.ticketBack);
-                    console.log(this.props.preferences)
-                }}>Check trip</Button>
-                <Button onPress={this.handleFinishPress}>Finish</Button>
-                <Button onPress={() => console.log(this.state.allPlaces)}>Check Places</Button>
+                <Button onPress={this.handleFinishPress} modify={{ marginBottom: 10 }}>Finish</Button>
             </View>
           </ImageBackground>
         );

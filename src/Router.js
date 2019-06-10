@@ -18,7 +18,8 @@ import {
     UserSettings,
     Schedule,
     TripHistory,
-    TripPlanned
+    TripPlanned,
+    Offers
 } from './components';
 import {StackViewStyleInterpolator} from 'react-navigation-stack';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
@@ -127,7 +128,14 @@ class RouterComp extends Component {
                                     key="future"
                                     component={TripPlanned}
                                     navTransparent={true}
-                                    renderTitle={() => this.getTitle("Upcoming trips", {marginLeft: 65})}
+                                    renderTitle={() => this.getTitle("Future Trips", {marginLeft: 65})}
+                                />
+
+                                <Scene 
+                                    key="offers"
+                                    component={Offers}
+                                    navTransparent={true}
+                                    renderTitle={() => this.getTitle("Offers", {marginLeft: 65})}
                                 />
 
                             </Drawer>

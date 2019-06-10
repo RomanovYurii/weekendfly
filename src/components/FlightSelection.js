@@ -3,11 +3,10 @@ import {Alert, View, Text, ImageBackground, ScrollView, KeyboardAvoidingView, Ke
 import {connect} from 'react-redux';
 import {Actions} from 'react-native-router-flux';
 import {Input, Button} from './common';
-import {flightUpdate} from '../actions/';
+import {flightUpdate, updateHome} from '../actions/';
 import firebase from 'firebase';
 
 class FlightSelection extends Component {
-
     handleOkPress = () => {
         if (this.props.depart && this.props.dest && this.props.date && this.props.budget) {
             Actions.prefs();
@@ -107,5 +106,5 @@ const mapStateToProps = ({flightData, auth, planData}) => {
     return {depart, dest, budget, date, user, defaultLocation};
 };
 
-const Flight = connect(mapStateToProps, {flightUpdate})(FlightSelection);
+const Flight = connect(mapStateToProps, {flightUpdate, updateHome})(FlightSelection);
 export {Flight};

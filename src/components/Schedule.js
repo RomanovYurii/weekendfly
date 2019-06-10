@@ -58,7 +58,6 @@ class Sched extends Component {
         await this.props.clearTrip();
         Actions.reset("drawer");
         Actions.pop();
-
         this.handleEmail(tripID);
     }
 

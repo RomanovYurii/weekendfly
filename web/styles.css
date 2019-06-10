@@ -148,11 +148,11 @@ button.disabled {
     margin-top: 5px;
 }
 
-#plannedTrips {
+#plannedTrips, #completedTrips {
     padding-top: 100px;
 }
 
-#plannedTripsHolder {
+#plannedTripsHolder, #completedTripsHolder {
     overflow: inherit;
     justify-content: flex-start;
     max-height: 80vh;

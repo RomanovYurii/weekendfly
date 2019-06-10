@@ -3,5 +3,5 @@
   "lanType": "ip",
   "dev": false,
   "minify": true,
-  "urlRandomness": "h2-vp9"
+  "urlRandomness": "p3-pem"
 }

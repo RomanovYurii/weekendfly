@@ -15,19 +15,29 @@ class Sched extends Component {
     }
 
     handleEmail = (tripID) => {
-        let link;
-        const to = ['tiaan@email.com', 'foo@bar.com'] // string or array of email addresses
+        let message = this.generateEmailText(this.props.tripData, tripID);
+        let myMail = firebase.auth().currentUser.email;
+        const to = [myMail] // string or array of email addresses
         email(to, {
-            // Optional additional arguments
-            cc: ['bazzy@moo.com', 'doooo@daaa.com'], // string or array of email addresses
-            bcc: 'mee@mee.com', // string or array of email addresses
-            subject: 'Show how to use',
-            body: tripID
+            subject: 'Trip planned with WeekendFly',
+            body: message
         }).catch(console.error)
     }
 
     async componentWillMount() {
         this.setState({allPlaces: await getPlaces(this.props.dest, this.props.preferences)});
+    }
+
+    generateEmailText(tripData, tripID){
+        const web = 'http://romanov.zzz.com.ua/weekend-fly';
+        const link = 'https://desktopapps.ryanair.com/v4/en-gb/availability?ADT=1&CHD=0&DateIn=' + tripData.dateBack + '&DateOut=' +
+        tripData.dateOut  + '&Destination=' + tripData.destination +
+        '&FlexDaysIn=0&FlexDaysOut=0&INF=0&IncludeConnectingFlights=false&Origin=' + tripData.origin +
+        '&RoundTrip=true&TEEN=0&ToUs=AGREED&exists=false';
+        const text = "You are flying from " + tripData.origin + " to " + tripData.destination + " on " + tripData.dateOut 
+            + " and returning on " + tripData.dateBack + "\n" + "Please do not forget to bring " + tripData.budget 
+            + ` for one-way journey with you. \nThe tickets can be ordered following this link: ${link} \n` + `Please visit the website ${web} or the app to see the list of places You plan to visit. \n\n Best regards, \n WeekendFly team`;
+        return text;
     }
 
     handleFinishPress = async () => {

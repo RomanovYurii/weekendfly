@@ -1,9 +1,17 @@
 {
+<<<<<<< HEAD
   "packagerPort": null,
   "packagerPid": null,
   "expoServerNgrokUrl": null,
   "packagerNgrokUrl": null,
   "ngrokPid": null,
+=======
+  "packagerPort": 19001,
+  "packagerPid": 3176,
+  "expoServerNgrokUrl": "https://h2-vp9.yu-admin.weekendfly.exp.direct",
+  "packagerNgrokUrl": "https://packager.h2-vp9.yu-admin.weekendfly.exp.direct",
+  "ngrokPid": 7908,
+>>>>>>> 8eee94826005e6b9b41e729eba7a56d7137b82a2
   "devToolsPort": 19002,
   "expoServerPort": null,
   "webpackServerPort": null

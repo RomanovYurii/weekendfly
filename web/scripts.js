@@ -39,10 +39,13 @@ const
                     if (trips)
                         await Object.keys(trips).map(async tripID => {
                             const trip = trips[tripID];
+                            const now = moment().format('YYYY-MM-DD');
+                            const checkDates = moment(trip.dateOut).isSameOrAfter(now);
                             trip.dateBack = moment(trip.dateBack).format('DD.MM.YYYY');
                             trip.dateOut = moment(trip.dateOut).format('DD.MM.YYYY');
 
-                            $('#plannedTripsHolder').append(`
+                            if (checkDates) {
+                                $('#plannedTripsHolder').append(`
                                 <div class="trip" style="background-color: white" id="` + tripID + `">
                                     <div class="row" style="justify-content: space-between;">
                                         <span class="label">` + trip.origin + `</span>
@@ -65,11 +68,11 @@ const
                                         <span class="label">Your tickets</span>
                                     </div>
                                 </div>`
-                            )
+                                )
 
-                            await fdb.ref('/tickets/' + tripID).once('value').then(ref => ref.val())
-                                .then(tickets => {
-                                    $('#' + tripID).append(`
+                                await fdb.ref('/tickets/' + tripID).once('value').then(ref => ref.val())
+                                    .then(tickets => {
+                                        $('#' + tripID).append(`
                                         <div class="row" style="justify-content: space-around">
                                             <div style="justify-content: center; align-items: center">
                                                 <img src="https://image.flaticon.com/icons/svg/1274/1274834.svg" style="height: 30px">
@@ -109,14 +112,15 @@ const
                                                 <span>${tickets.ticketBack.arr}</span>
                                             </div>
                                         </div>`
-                                    )
-                                })
+                                        )
+                                    })
 
 
-                            await fdb.ref('/places/' + tripID).once('value').then(ref => ref.val())
-                                .then(places => {
-                                    if (Object.keys(places).length !== 0) {
-                                        $('#' + tripID).append(`
+                                await fdb.ref('/places/' + tripID).once('value').then(ref => ref.val())
+                                    .then(places => {
+                                        if (typeof places !== 'undefined' && places !== null)
+                                            if (Object.keys(places).length !== 0) {
+                                                $('#' + tripID).append(`
                                             <hr>
                                                 
                                             <div class="row" style="justify-content: center;">
@@ -124,18 +128,139 @@ const
                                             </div>
                                             
                                             <ul id="places-${tripID}"></ul>`
-                                        );
+                                                );
 
-                                        for (let placeName of Object.keys(places)) {
-                                            $('#places-' + tripID).append(
-                                                `<div style="margin-bottom: 15px;">
+                                                for (let placeName of Object.keys(places)) {
+                                                    $('#places-' + tripID).append(
+                                                        `<div style="margin-bottom: 15px;">
                                                     <span style="font-weight: bold; font-style: italic;">"${placeName}"</span>
                                                     <span>${places[placeName]}</span>
                                                 </div>`
-                                            )
-                                        }
-                                    }
-                                })
+                                                    )
+                                                }
+                                            }
+                                    })
+                            }
+                            $('body > *').removeClass('shown');
+                            $('#' + pageName).addClass('shown');
+                        })
+                    else {
+                        $('body > *').removeClass('shown');
+                        $('#' + pageName).addClass('shown');
+                    }
+
+                })
+        } else if (pageName === 'completedTrips') {
+            const uid = firebase.auth().currentUser.uid;
+            load();
+            await fdb.ref('/trips/' + uid).once('value').then(ref => ref.val())
+                .then(async trips => {
+                    $('#completedTripsHolder').text('')
+                    if (trips)
+                        await Object.keys(trips).map(async tripID => {
+                            const trip = trips[tripID];
+                            const now = moment().format('YYYY-MM-DD');
+                            const checkDates = moment(trip.dateOut).isBefore(now);
+                            trip.dateBack = moment(trip.dateBack).format('DD.MM.YYYY');
+                            trip.dateOut = moment(trip.dateOut).format('DD.MM.YYYY');
+
+                            if (checkDates) {
+                                $('#completedTripsHolder').append(`
+                                <div class="trip" style="background-color: white" id="complete-` + tripID + `">
+                                    <div class="row" style="justify-content: space-between;">
+                                        <span class="label">` + trip.origin + `</span>
+                                        <span class="label">` + trip.destination + `</span>
+                                    </div>
+                                    
+                                    <div class="row" style="justify-content: space-between;">
+                                        <span>` + trip.dateOut + `</span>
+                                        <span>` + trip.dateBack + `</span>
+                                    </div>
+                                    
+                                    <div class="row" style="align-items: center;">
+                                        <img src="https://image.flaticon.com/icons/svg/846/846061.svg" style="height: 30px;">
+                                        <span style="margin-left: 10px;">Budget: ` + trip.budget + ` zl</span>
+                                    </div>
+                                    
+                                    <hr>
+                                    
+                                    <div class="row" style="justify-content: center;">
+                                        <span class="label">Your tickets</span>
+                                    </div>
+                                </div>`
+                                )
+
+                                await fdb.ref('/tickets/' + tripID).once('value').then(ref => ref.val())
+                                    .then(tickets => {
+                                        $('#complete-' + tripID).append(`
+                                        <div class="row" style="justify-content: space-around">
+                                            <div style="justify-content: center; align-items: center">
+                                                <img src="https://image.flaticon.com/icons/svg/1274/1274834.svg" style="height: 30px">
+                                                <span>${tickets.ticketTo.ori}</span>
+                                                <span>${tickets.ticketTo.dep}</span>
+                                            </div>
+                                            
+                                            <div style="justify-content: center; align-items: center">
+                                                <div style="width: 100px; height: 1px; background-color: black"></div>
+                                                <span style="margin-top: 10px">${tickets.ticketTo.duration}</span>
+                                                <span class="label" style="margin-top: 0px">${tickets.ticketTo.price + ' zl'}</span>
+                                            </div>
+                                            
+                                            <div style="justify-content: center; align-items: center">
+                                                <img src="https://image.flaticon.com/icons/svg/1274/1274833.svg" style="height: 30px">
+                                                <span>${tickets.ticketTo.dest}</span>
+                                                <span>${tickets.ticketTo.arr}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row" style="justify-content: space-around; margin-top: 10px;">
+                                            <div style="justify-content: center; align-items: center">
+                                                <img src="https://image.flaticon.com/icons/svg/1274/1274834.svg" style="height: 30px">
+                                                <span>${tickets.ticketBack.ori}</span>
+                                                <span>${tickets.ticketBack.dep}</span>
+                                            </div>
+                                            
+                                            <div style="justify-content: center; align-items: center">
+                                                <div style="width: 100px; height: 1px; background-color: black"></div>
+                                                <span style="margin-top: 10px">${tickets.ticketBack.duration}</span>
+                                                <span class="label" style="margin-top: 0px">${tickets.ticketBack.price + ' zl'}</span>
+                                            </div>
+                                            
+                                            <div style="justify-content: center; align-items: center">
+                                                <img src="https://image.flaticon.com/icons/svg/1274/1274833.svg" style="height: 30px">
+                                                <span>${tickets.ticketBack.dest}</span>
+                                                <span>${tickets.ticketBack.arr}</span>
+                                            </div>
+                                        </div>`
+                                        )
+                                    })
+
+
+                                await fdb.ref('/places/' + tripID).once('value').then(ref => ref.val())
+                                    .then(places => {
+                                        if (typeof places !== 'undefined' && places !== null)
+                                            if (Object.keys(places).length !== 0) {
+                                                $('#complete-' + tripID).append(`
+                                            <hr>
+                                                
+                                            <div class="row" style="justify-content: center;">
+                                                <span class="label">Your places to visit</span>
+                                            </div>
+                                            
+                                            <ul id="complete-places-${tripID}"></ul>`
+                                                );
+
+                                                for (let placeName of Object.keys(places)) {
+                                                    $('#complete-places-' + tripID).append(
+                                                        `<div style="margin-bottom: 15px;">
+                                                    <span style="font-weight: bold; font-style: italic;">"${placeName}"</span>
+                                                    <span>${places[placeName]}</span>
+                                                </div>`
+                                                    )
+                                                }
+                                            }
+                                    })
+                            }
                             $('body > *').removeClass('shown');
                             $('#' + pageName).addClass('shown');
                         })

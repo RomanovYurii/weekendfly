@@ -17,12 +17,7 @@ export default class App extends Component {
   componentWillMount() {
     
     const config = {
-      apiKey: 'AIzaSyABDA0ovWiiDk0YP1uBp9j4_AHi80slASs',
-      authDomain: 'weekendfly-97c2a.firebaseapp.com',
-      databaseURL: 'https://weekendfly-97c2a.firebaseio.com',
-      projectId: 'weekendfly-97c2a',
-      storageBucket: 'weekendfly-97c2a.appspot.com',
-      messagingSenderId: '108688760483'
+     /* firebase config should appear here */
     };
     firebase.initializeApp(config);
   }
